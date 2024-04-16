@@ -1,0 +1,4 @@
+4/2/2024 11:54:05 AM - Proses: his_login, Pesan: Unknown column 'RECID' in 'where clause'
+4/2/2024 11:54:42 AM - Proses: his_login, Pesan: Unknown column 'RECID' in 'where clause'
+4/2/2024 11:55:30 AM - Proses: his_login, Pesan: Unknown column 'ISAKTIF' in 'where clause'
+4/2/2024 11:57:24 AM - Proses: Cekserverbroker, Pesan: BELUM ADA SERVER BROKER

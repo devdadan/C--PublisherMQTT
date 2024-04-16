@@ -1,0 +1,9 @@
+3/18/2024 4:37:49 PM - Proses: GetListZip, Pesan: Unknown column 'G001' in 'where clause'
+3/18/2024 4:45:23 PM - Proses: KirimTUgas, Pesan: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ALL FILES',ALOK'ALOK',FILE'FILE T',FT'FT',ICOA'ICOA',SCRE'SCREEN SAVER',SIMU'SIM' at line 1
+3/18/2024 4:45:45 PM - Proses: KirimTugas, Pesan: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ALL FILES',ALOK'ALOK',FILE'FILE T',FT'FT',ICOA'ICOA',SCRE'SCREEN SAVER',SIMU'SIM' at line 1
+3/18/2024 4:51:34 PM - Proses: KirimTUgas, Pesan: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ALL FILES','ALOK','FILE T','FT','ICOA','SCREEN SAVER','SIMULASI','TAT'')' at line 1
+3/18/2024 4:51:35 PM - Proses: KirimTugas, Pesan: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ALL FILES','ALOK','FILE T','FT','ICOA','SCREEN SAVER','SIMULASI','TAT'')' at line 1
+3/18/2024 4:54:11 PM - Proses: KirimTugas, Pesan: Value of '100' is not valid for 'Value'. 'Value' should be between 'minimum' and 'maximum'.
+Parameter name: Value
+3/18/2024 4:56:03 PM - Proses: KirimTUgas, Pesan: Reading from the stream has failed.
+3/18/2024 4:56:06 PM - Proses: KirimTugas, Pesan: Reading from the stream has failed.
