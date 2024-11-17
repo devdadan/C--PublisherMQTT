@@ -57,6 +57,12 @@ namespace REG2Publisher
             }
 
         }
+        public void ButtonClick()
+        {
+            ServerBroker = Fungsi.Server;
+            c_id = NikLogin + "SS";
+            button1.PerformClick();
+        }
         private void konekbroker(string sclinet)
         {
             Task.Run(() =>
@@ -139,7 +145,7 @@ namespace REG2Publisher
                 }
             });
         }
-        private void reqSS()
+        public void reqSS()
         {
            try
                 {
@@ -175,14 +181,14 @@ namespace REG2Publisher
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void button1_Click(object sender, EventArgs e)
         {
             reqSS();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Close();
+            
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

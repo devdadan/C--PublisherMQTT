@@ -227,6 +227,7 @@ namespace REG2Publisher
         private void KirimTugas()
         {
             button1.Text = "Loading";
+            txt_respons2.Text = "Start kirim tugas \n";
             string listcab = "";
             StringBuilder result = new StringBuilder();
             foreach (var itemChecked in ck_cabang.CheckedItems)
@@ -241,7 +242,7 @@ namespace REG2Publisher
                 result.Remove(result.Length - 1, 1);
 
             listcab = result.ToString();
-
+            txt_respons2.Text += "Get Listcab " + listcab +"\n";
             string listfiles = "";
             StringBuilder result2 = new StringBuilder();
             foreach (var itemChecked2 in ck_files.CheckedItems)
@@ -255,6 +256,7 @@ namespace REG2Publisher
                 result2.Remove(result2.Length - 1, 1);
 
             listfiles = result2.ToString();
+            txt_respons2.Text += "Get Listfile " + listfiles +"\n";
             string tgl = dateTimePicker1.Text;
             int m = ck_cabang.CheckedItems.Count;
 
@@ -269,53 +271,62 @@ namespace REG2Publisher
                 {
                     while (reader.Read())
                     {
-                        string serv = "";
-                        string pass = "";
-                        string user = "";
-                        string db = "";
-                        string cb = "";
+                        string aserv = "";
+                        string apass = "";
+                        string auser = "";
+                        string adb = "";
+                        string acb = "";
                         string inittampung = "";
-                        cb = reader.GetString("KDCAB");
-                        serv = reader.GetString("SERVER");
-                        user = reader.GetString("USER");
-                        pass = reader.GetString("PASS");
-                        db = reader.GetString("DB");
-                        inittampung = "TAMPUNG_" + cb;
+                        acb = reader.GetString("KDCAB");
+                        aserv = reader.GetString("SERVER");
+                        auser = reader.GetString("USER");
+                        apass = reader.GetString("PASS");
+                        adb = reader.GetString("DB");
+                        inittampung = "TAMPUNG_" + acb;
                         string connectiontmp = "";
-                        connectiontmp = "server=" + serv + ";user=" + user + ";password=" + pass + ";database=" + db + ";";
+                        connectiontmp = "server=" + aserv + ";user=" + auser + ";password=" + apass + ";database=" + adb + ";";
+                        txt_respons2.Text += "Proses ke 1 " + inittampung +"\n";
+                        txt_respons2.Text += connectiontmp + "\n";
                         MySqlConnection con2 = new MySqlConnection(connectiontmp);
-                        if (Fungsi.CheckPing(serv))
+                        if (Fungsi.CheckPing(aserv))
                         {
-                            if (!(cb == "G009") && !(cb == "G257") && !(cb == "G259") && !(cb == "G218"))
+                            txt_respons2.Text += "Sukses ping ke server " + aserv +"\n";
+                            if (!(acb == "G009") && !(acb == "G257") && !(acb == "G259") && !(acb == "G218"))
                             {
                                 FrmCek cek = new FrmCek();
                                 Fungsi.Nametmp = inittampung;
                                 cek.ShowDialog();
                                 if (cek.hasil)
                                 {
+                                    txt_respons2.Text = "Terkoneksi ke listener " + inittampung +"\n";
                                     try
                                     {
-                                        con2.Open();
+                                        if (con2.State != ConnectionState.Open)
+                                        {
+                                            con2.Open();
+                                        }
+                                        txt_respons2.Text += "Create table command \n";
                                         MySqlCommand cmd1 = new MySqlCommand("CREATE TABLE if not exists `command` (`id` INT(11) NOT NULL AUTO_INCREMENT,`jenis_command` VARCHAR(20) DEFAULT '',`Tanggal` VARCHAR(20) DEFAULT NULL,`isi_command` TEXT,`stat_command` CHAR(1) DEFAULT '*',PRIMARY KEY (`id`)) ENGINE=INNODB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1", con2);
                                         cmd1.ExecuteNonQuery();
-
+                                        txt_respons2.Text += "update command 1 \n";
                                         MySqlCommand cmd2 = new MySqlCommand("UPDATE COMMAND SET STAT_COMMAND='1' WHERE STAT_COMMAND='*'", con2);
                                         cmd2.ExecuteNonQuery();
-
+                                        txt_respons2.Text += "Insert comand \n";
                                         MySqlCommand cmd3 = new MySqlCommand("INSERT INTO COMMAND (JENIS_COMMAND, TANGGAL, ISI_COMMAND) VALUES (@JenisCommand, @Tanggal, @IsiCommand)", con2);
                                         cmd3.Parameters.AddWithValue("@JenisCommand", "A");
                                         cmd3.Parameters.AddWithValue("@Tanggal", tgl);
                                         cmd3.Parameters.AddWithValue("@IsiCommand", listfiles);
                                         cmd3.ExecuteNonQuery();
 
+                                        txt_respons2.Text += "Send command \n";
                                         SendCOmmand(inittampung);
 
-                                        button1.Text = "Proses ke : " + cb + " - " + serv;
+                                        button1.Text = "Proses ke : " + acb + " - " + aserv;
                                     }
                                     catch (Exception ex1)
                                     {
-                                        Fungsi.Log("KirimTUgas", ex1.Message);
-                                        MessageBox.Show("KirimTUgas", ex1.Message);
+                                        Fungsi.Log("KirimTUgas", ex1.Message + ex1.StackTrace);
+                                        MessageBox.Show("KirimTUgas" + ex1.Message + ex1.StackTrace);
 
                                     }
                                 }
@@ -334,24 +345,25 @@ namespace REG2Publisher
                                     cek.ShowDialog();
                                     if (cek.hasil)
                                     {
-                                        Fungsi.Log("Cek looping mdn ", cb);
+                                        Fungsi.Log("Cek looping mdn ", acb);
                                         MySqlCommand cmda = new MySqlCommand("UPDATE COMMAND SET STAT_COMMAND='1' WHERE STAT_COMMAND='*'", con2);
                                         cmda.ExecuteNonQuery();
+                                        cmda.Dispose();
 
                                         MySqlCommand cmd3a = new MySqlCommand("INSERT INTO COMMAND (JENIS_COMMAND, TANGGAL, ISI_COMMAND,CAB) VALUES (@JenisCommand, @Tanggal, @IsiCommand,@IsiCab)", con2);
                                         cmd3a.Parameters.AddWithValue("@JenisCommand", "A");
                                         cmd3a.Parameters.AddWithValue("@Tanggal", tgl);
                                         cmd3a.Parameters.AddWithValue("@IsiCommand", listfiles);
-                                        cmd3a.Parameters.AddWithValue("@IsiCab", cb);
+                                        cmd3a.Parameters.AddWithValue("@IsiCab", acb);
                                         cmd3a.ExecuteNonQuery();
+                                        cmd3a.Dispose();
 
                                         SendCOmmand("TAMPUNG_G009");
                                         ismdn = true;
                                     }
                                     else
                                     {
-                                        txt_respons2.Text += Environment.NewLine;
-                                        txt_respons2.Text += "GAGAL KIRIM KE " + inittampung + " KARENA LISTENERS OFFLINE";
+                                        txt_respons2.Text += "GAGAL KIRIM KE " + inittampung + " KARENA LISTENERS OFFLINE \n";
                                     }
                                 }
                                 
@@ -361,10 +373,11 @@ namespace REG2Publisher
                         }
                         else
                         {
-                            Fungsi.Log("KirimTUgas", "Tidak terkoneksi ke " + serv);
+                            Fungsi.Log("KirimTUgas", "Tidak terkoneksi ke " + aserv);
                         }
-                
+                        
                     }
+                    
                      
                     }
                    
@@ -373,13 +386,13 @@ namespace REG2Publisher
             {
 
                 Fungsi.Log("KirimTugas", ex.Message);
-                MessageBox.Show("Error: " + ex.Message);
-                this.Close();
+                MessageBox.Show("Error: " + ex.Message + ex.StackTrace);
+                //this.Close();
             }
             finally
             {
                 button1.Text = "SEND COMMAND ZIP";
-                connection.Close();
+                //connection.Close();
             }
         }
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)

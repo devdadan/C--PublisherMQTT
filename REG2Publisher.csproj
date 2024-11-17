@@ -105,6 +105,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Frmbc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frmbc.Designer.cs">
+      <DependentUpon>Frmbc.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmCapture.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REG2Class.cs" />
+    <EmbeddedResource Include="Frmbc.resx">
+      <DependentUpon>Frmbc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmCapture.resx">
       <DependentUpon>FrmCapture.cs</DependentUpon>
     </EmbeddedResource>
@@ -207,6 +216,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons8-link-64.ico" />
+    <None Include="Resources\Screenshot 2024-11-11 133736.png" />
+    <None Include="Resources\WhatsApp Image 2024-11-07 at 14.55.17.jpeg" />
     <None Include="Resources\icons8-minimize-window-20.png" />
     <None Include="Resources\icons8-close-window-201.png" />
     <None Include="Resources\icons8-close-window-20.png" />

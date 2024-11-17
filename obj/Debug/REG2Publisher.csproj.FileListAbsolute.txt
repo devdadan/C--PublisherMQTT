@@ -42,27 +42,17 @@ D:\PROGRAM VB\DS-Projek\REG2\obj\Debug\REG2Publisher.csproj.CoreCompileInputs.ca
 D:\PROGRAM VB\DS-Projek\REG2\obj\Debug\REG2Publisher.csproj.CopyComplete
 D:\PROGRAM VB\DS-Projek\REG2\obj\Debug\REG2Publisher.exe
 D:\PROGRAM VB\DS-Projek\REG2\obj\Debug\REG2Publisher.pdb
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.csproj.AssemblyReference.cache
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmCapture.resources
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmCek.resources
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmDTO.resources
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmLoading.resources
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmLogin.resources
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmREGPubLink.resources
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2PubLink.Properties.Resources.resources
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.csproj.GenerateResource.cache
-D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.csproj.CoreCompileInputs.cache
-D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\REG2PubLink.exe.config
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\REG2PubLink.exe
+D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\M2Mqtt.Net.dll
+D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\MySql.Data.dll
+D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\REG2PubLink.exe.config
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\REG2PubLink.pdb
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\BouncyCastle.Cryptography.dll
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\Google.Protobuf.dll
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\K4os.Compression.LZ4.dll
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\K4os.Compression.LZ4.Streams.dll
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\K4os.Hash.xxHash.dll
-D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\M2Mqtt.Net.dll
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
-D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\MySql.Data.dll
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\System.Buffers.dll
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\System.Configuration.ConfigurationManager.dll
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\System.Diagnostics.DiagnosticSource.dll
@@ -88,6 +78,67 @@ D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\System.Memory.xml
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\System.Numerics.Vectors.xml
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\PROGRAM VB\DS-Projek\REG2Publisher\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.csproj.AssemblyReference.cache
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmCapture.resources
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmCek.resources
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmDTO.resources
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmLoading.resources
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmLogin.resources
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.FrmREGPubLink.resources
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2PubLink.Properties.Resources.resources
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.csproj.GenerateResource.cache
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.csproj.CoreCompileInputs.cache
 D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.csproj.CopyComplete
 D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2PubLink.exe
 D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2PubLink.pdb
+D:\PROGRAM VB\DS-Projek\REG2Publisher\obj\Debug\REG2Publisher.Frmbc.resources
+D:\VB\REG2Publisher\bin\Debug\REG2PubLink.exe.config
+D:\VB\REG2Publisher\bin\Debug\REG2PubLink.exe
+D:\VB\REG2Publisher\bin\Debug\REG2PubLink.pdb
+D:\VB\REG2Publisher\bin\Debug\BouncyCastle.Cryptography.dll
+D:\VB\REG2Publisher\bin\Debug\Google.Protobuf.dll
+D:\VB\REG2Publisher\bin\Debug\K4os.Compression.LZ4.dll
+D:\VB\REG2Publisher\bin\Debug\K4os.Compression.LZ4.Streams.dll
+D:\VB\REG2Publisher\bin\Debug\K4os.Hash.xxHash.dll
+D:\VB\REG2Publisher\bin\Debug\M2Mqtt.Net.dll
+D:\VB\REG2Publisher\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+D:\VB\REG2Publisher\bin\Debug\MySql.Data.dll
+D:\VB\REG2Publisher\bin\Debug\System.Buffers.dll
+D:\VB\REG2Publisher\bin\Debug\System.Configuration.ConfigurationManager.dll
+D:\VB\REG2Publisher\bin\Debug\System.Diagnostics.DiagnosticSource.dll
+D:\VB\REG2Publisher\bin\Debug\System.IO.Pipelines.dll
+D:\VB\REG2Publisher\bin\Debug\System.Memory.dll
+D:\VB\REG2Publisher\bin\Debug\System.Numerics.Vectors.dll
+D:\VB\REG2Publisher\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\VB\REG2Publisher\bin\Debug\System.Threading.Tasks.Extensions.dll
+D:\VB\REG2Publisher\bin\Debug\ZstdSharp.dll
+D:\VB\REG2Publisher\bin\Debug\BouncyCastle.Cryptography.xml
+D:\VB\REG2Publisher\bin\Debug\Google.Protobuf.pdb
+D:\VB\REG2Publisher\bin\Debug\Google.Protobuf.xml
+D:\VB\REG2Publisher\bin\Debug\K4os.Compression.LZ4.xml
+D:\VB\REG2Publisher\bin\Debug\K4os.Compression.LZ4.Streams.xml
+D:\VB\REG2Publisher\bin\Debug\K4os.Hash.xxHash.xml
+D:\VB\REG2Publisher\bin\Debug\M2Mqtt.Net.pdb
+D:\VB\REG2Publisher\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+D:\VB\REG2Publisher\bin\Debug\MySql.Data.xml
+D:\VB\REG2Publisher\bin\Debug\System.Buffers.xml
+D:\VB\REG2Publisher\bin\Debug\System.Diagnostics.DiagnosticSource.xml
+D:\VB\REG2Publisher\bin\Debug\System.IO.Pipelines.xml
+D:\VB\REG2Publisher\bin\Debug\System.Memory.xml
+D:\VB\REG2Publisher\bin\Debug\System.Numerics.Vectors.xml
+D:\VB\REG2Publisher\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\VB\REG2Publisher\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.Frmbc.resources
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.FrmCapture.resources
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.FrmCek.resources
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.FrmDTO.resources
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.FrmLoading.resources
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.FrmLogin.resources
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.FrmREGPubLink.resources
+D:\VB\REG2Publisher\obj\Debug\REG2PubLink.Properties.Resources.resources
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.csproj.GenerateResource.cache
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.csproj.CoreCompileInputs.cache
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.csproj.CopyComplete
+D:\VB\REG2Publisher\obj\Debug\REG2PubLink.exe
+D:\VB\REG2Publisher\obj\Debug\REG2PubLink.pdb
+D:\VB\REG2Publisher\obj\Debug\REG2Publisher.csproj.AssemblyReference.cache

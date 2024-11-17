@@ -1,0 +1,5 @@
+5/1/2024 3:23:25 PM - Proses: his_login, Pesan: Table 'publink.his_login' doesn't exist
+5/1/2024 3:25:22 PM - Proses: his_login, Pesan: Table 'publink.brokerinfo' doesn't exist
+5/1/2024 3:26:49 PM - Proses: getDatacabang, Pesan: Unknown column 'recid' in 'where clause'
+5/1/2024 3:38:57 PM - Proses: Cek looping mdn , Pesan: G009
+5/1/2024 3:38:57 PM - Proses: KirimTugas, Pesan: Connection must be valid and open.

@@ -7,11 +7,13 @@ using System.Net.NetworkInformation;
 using System.IO;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 namespace REG2Publisher
 {
     class REG2Class
     {
- 
+        MqttClient mqttClient;
         private static string _server;
         private static string _nametmp;
         private static string _niklogin;
@@ -52,6 +54,42 @@ namespace REG2Publisher
             catch (PingException)
             {
                 return false;
+            }
+        }
+        public bool CheckServer(string server)
+        {
+            try
+            {
+                if (mqttClient == null || !mqttClient.IsConnected)
+                {
+                    if (mqttClient != null && mqttClient.IsConnected)
+                    {
+                        mqttClient.Disconnect();
+                    }
+
+                    mqttClient = new MqttClient(server);
+                    mqttClient.MqttMsgPublishReceived += (sender, e) =>
+                    {
+                        Console.WriteLine("Message received from topic: " + e.Topic);
+                    };
+                    mqttClient.Connect("DADAN_CAKEP");
+
+                    mqttClient.Subscribe(new string[] { "TES_SERVER" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                return false;
+            }
+        }
+        public void Disconnect()
+        {
+            if (mqttClient != null && mqttClient.IsConnected)
+            {
+                mqttClient.Disconnect();
             }
         }
 
@@ -122,6 +160,7 @@ namespace REG2Publisher
                 MessageBox.Show($"Error writing to log file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
        
 

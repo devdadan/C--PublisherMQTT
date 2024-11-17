@@ -243,9 +243,29 @@ namespace REG2PubLink.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Screenshot_2024_11_11_133736 {
+            get {
+                object obj = ResourceManager.GetObject("Screenshot 2024-11-11 133736", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Secure_login {
             get {
                 object obj = ResourceManager.GetObject("Secure login", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WhatsApp_Image_2024_11_07_at_14_55_17 {
+            get {
+                object obj = ResourceManager.GetObject("WhatsApp Image 2024-11-07 at 14.55.17", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

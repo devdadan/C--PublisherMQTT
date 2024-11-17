@@ -24,6 +24,9 @@ namespace REG2Publisher
 
         private void Loader_Load(object sender, EventArgs e)
         {
+            this.KeyPreview = true;
+            textBox2.KeyDown += textBox2_KeyDown;
+
             try
             {
                 string connectionString = Fungsi.connectionString;
@@ -153,6 +156,7 @@ namespace REG2Publisher
                                     Fungsi.Log("Cekserverbroker", "BELUM ADA SERVER BROKER");
                                     this.Close();
                                 }
+                                if (Fungsi.CheckServer(Fungsi.Server)) { 
 
                                 this.Hide();
 
@@ -160,7 +164,13 @@ namespace REG2Publisher
                                 Fungsi.NikLogin = textBox1.Text;
                                 v.NikLogin = textBox1.Text;
                                 v.Show();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("SERVER BROKER IS TURN OFF, TURN ON PLEASE!","WARNING",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                                    this.Close();
 
+                                }
                             }
                             catch (Exception ex)
                             {
@@ -186,6 +196,21 @@ namespace REG2Publisher
                 }
             }
             
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+            if (e.KeyCode == Keys.Enter)
+            {
+                button1.Focus();
+                //e.SuppressKeyPress = true;
+                //button1.PerformClick();
+            }
         }
     }
 }

@@ -1,0 +1,2 @@
+4/19/2024 5:18:57 PM - Proses: Cek looping mdn , Pesan: G009
+4/19/2024 5:18:57 PM - Proses: KirimTugas, Pesan: Connection must be valid and open.
