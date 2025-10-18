@@ -1,0 +1,13 @@
+##### LOG PROGRAM #####
+2025-10-16 08:42:21 : Gagal dapat response API : System.Net.WebException: The remote server returned an error: (500) Internal Server Error.
+   at System.Net.HttpWebRequest.GetResponse()
+   at REG.Fungsi.Fungsi.ApiRequest(String
+2025-10-16 08:48:30 : Gagal dapat response API : System.Net.WebException: The remote server returned an error: (500) Internal Server Error.
+   at System.Net.HttpWebRequest.GetResponse()
+   at REG.Fungsi.Fungsi.ApiRequest(String
+2025-10-16 08:51:34 : Gagal dapat response API : System.Net.WebException: The remote server returned an error: (500) Internal Server Error.
+   at System.Net.HttpWebRequest.GetResponse()
+   at REG.Fungsi.Fungsi.ApiRequest(String
+2025-10-16 09:36:22 : Gagal dapat response API : System.Net.WebException: The remote server returned an error: (500) Internal Server Error.
+   at System.Net.HttpWebRequest.GetResponse()
+   at REG.Fungsi.Fungsi.ApiRequest(String

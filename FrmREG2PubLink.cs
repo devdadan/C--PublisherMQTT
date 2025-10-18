@@ -58,53 +58,27 @@ namespace REG2Publisher
             getip();
             getDatacabang();
             lbl_client.Text = "";
-            button4.Enabled = true;
             FrmDTO childForm = new FrmDTO();
 
             childForm.TopLevel = false;
             tabPage2.Controls.Add(childForm);
 
-            Frmbc bc = new Frmbc();
-            bc.TopLevel = false;
-            tabPage3.Controls.Add(bc);
-
+            //Frmbc bc = new Frmbc();
+            //bc.TopLevel = false;
+            //tabPage3.Controls.Add(bc);
+            
 
             childForm.NikLogin = NikLogin;
             childForm.Show();
-            bc.Show();
+            //bc.Show();
             lbltampung.Text = "";
             button5.Enabled = false;
             BTN_RECONNECT.Enabled = false;
             //pictureBox1.Image = null;
+            cb_capture.Checked = false;
             
         }
-        //private void MqttClient_MqttMsgPublishReceived(object sender, uPLibrary.Networking.M2Mqtt.Messages.MqttMsgPublishEventArgs e)
-        //{
-        //    try
-        //    {
-                
-        //        var topic = e.Topic;
-        //        var message = Encoding.UTF8.GetString(e.Message);
-        //        if (topic == "RESPONS_" + clientid + "/BC/" + NikLogin)
-        //        {
-        //            txt_respons.Invoke((MethodInvoker)(() =>
-        //            {                  
-        //                txt_respons.Text += Environment.NewLine + message;
-        //                txt_respons.SelectionStart = txt_respons.Text.Length;
-        //                txt_respons.ScrollToCaret();
-        //            }));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        this.Invoke((MethodInvoker)delegate
-        //        {
-        //            MessageBox.Show($"Error connecting to MQTT broker: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        });
-        //    }
-           
-        //}
-
+     
         private void cb_client_SelectedIndexChanged(object sender, EventArgs e)
         {
            
@@ -166,89 +140,6 @@ namespace REG2Publisher
             }
         }
 
-        //private void konekbroker(string sclinet)
-        //{
-        //    Task.Run(() =>
-        //    {
-        //        try
-        //        {
-
-        //            if (mqttClient == null || !mqttClient.IsConnected)
-        //            {
-        //                if (mqttClient != null && mqttClient.IsConnected)
-        //                {
-        //                    mqttClient.Disconnect();
-        //                }
-
-        //                string commandTopic = string.Empty;
-
-
-        //                this.Invoke((MethodInvoker)delegate
-        //                {
-        //                    commandTopic = "RESPONS_" + sclinet + "/BC/" + NikLogin;
-        //                });
-
-        //                mqttClient = new MqttClient(ServerBroker);
-        //                mqttClient.MqttMsgPublishReceived += MqttClient_MqttMsgPublishReceived;
-
-        //                this.Invoke((MethodInvoker)delegate
-        //                {
-
-        //                    mqttClient.Subscribe(new string[] { commandTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-        //                    mqttClient.Connect(c_id);
-        //                    inisaha = commandTopic;
-        //                });
-        //            }
-        //            else
-        //            {
-        //                if ("RESPONS_" + clientid + "/BC/" + NikLogin != inisaha)
-        //                {
-        //                    this.Invoke((MethodInvoker)delegate
-        //                    {
-        //                        txt_respons.Clear();
-        //                    });
-        //                }
-
-        //                if (mqttClient != null && mqttClient.IsConnected)
-        //                {
-        //                    try
-        //                    {
-        //                        mqttClient.Unsubscribe(new string[] { "RESPONS_" + sclinet + "/BC/" + NikLogin });
-        //                    }
-        //                    catch (Exception ex)
-        //                    {
-        //                        this.Invoke((MethodInvoker)delegate
-        //                        {
-        //                            MessageBox.Show($"Error Unsubscribe to MQTT topic: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //                        });
-        //                    }
-        //                }
-
-        //                try
-        //                {
-        //                    string newCommandTopic = $"RESPONS_{sclinet}/BC/{NikLogin}";
-        //                    mqttClient.Subscribe(new string[] { newCommandTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-        //                    inisaha = newCommandTopic;
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    this.Invoke((MethodInvoker)delegate
-        //                        {
-        //                            MessageBox.Show($"Error Subscribe to MQTT topic: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //                        });
-        //                }
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            this.Invoke((MethodInvoker)delegate
-        //            {
-        //                MessageBox.Show($"Error connecting to MQTT broker: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            });
-        //        }
-        //    });
-        //}
-
         private void konekbroker(string sclinet)
         {
             Task.Run(() =>
@@ -276,12 +167,23 @@ namespace REG2Publisher
 
                             try
                             {
-                                mqttClient.Connect(c_id);
-                                mqttClient.Subscribe(new string[] { bcTopic, screenshotTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-                                inisaha = bcTopic;
+                                if (cb_capture.Checked == true)
+                                {
+                                    mqttClient.Connect(c_id);
+                                    mqttClient.Subscribe(new string[] { bcTopic, screenshotTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+                                    inisaha = bcTopic;
+                                }
+                                else
+                                {
+                                    mqttClient.Connect(c_id);
+                                    mqttClient.Subscribe(new string[] { bcTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE});
+                                    inisaha = bcTopic;
+                                };
+                               
                             }
                             catch (Exception ex)
                             {
+                                Fungsi.Log("konekbroker", "Error while connecting or subscribing" + ex.Message);
                                 MessageBox.Show($"Error while connecting or subscribing: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         });
@@ -298,12 +200,21 @@ namespace REG2Publisher
 
                             try
                             {
-                                mqttClient.Unsubscribe(new string[] { "RESPONS_" + clientid + "/BC/" + NikLogin, "RESPONS_" + clientid + "/SCREENSHOT/" + NikLogin });
+                                if (cb_capture.Checked == true)
+                                {
+                                    mqttClient.Unsubscribe(new string[] { "RESPONS_" + clientid + "/BC/" + NikLogin, "RESPONS_" + clientid + "/SS/" + NikLogin });
+                                }
+                                else
+                                {
+                                    mqttClient.Unsubscribe(new string[] { "RESPONS_" + clientid + "/BC/" + NikLogin });
+                                };
+                                    
                             }
                             catch (Exception ex)
                             {
                                 this.Invoke((MethodInvoker)delegate
                                 {
+                                    Fungsi.Log("konekbroker", "Error unsubscribing from MQTT topics: " + ex.Message);
                                     MessageBox.Show($"Error unsubscribing from MQTT topics: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 });
                             }
@@ -312,15 +223,26 @@ namespace REG2Publisher
                         // Subscribe ke dua topik baru
                         try
                         {
-                            string newBcTopic = $"RESPONS_{sclinet}/BC/{NikLogin}";
-                            string newScreenshotTopic = $"RESPONS_{sclinet}/SS/{NikLogin}";
-                            mqttClient.Subscribe(new string[] { newBcTopic, newScreenshotTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-                            inisaha = newBcTopic;
+                            if (cb_capture.Checked == true)
+                            {
+                                string newBcTopic = $"RESPONS_{sclinet}/BC/{NikLogin}";
+                                string newScreenshotTopic = $"RESPONS_{sclinet}/SS/{NikLogin}";
+                                mqttClient.Subscribe(new string[] { newBcTopic, newScreenshotTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+                                inisaha = newBcTopic;
+                            }
+                            else
+                            {
+                                string newBcTopic = $"RESPONS_{sclinet}/BC/{NikLogin}";
+                                mqttClient.Subscribe(new string[] { newBcTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+                                inisaha = newBcTopic;
+                            };
+                                
                         }
                         catch (Exception ex)
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
+                                Fungsi.Log("konekbroker", "Error subscribing to MQTT topics: " + ex.Message);
                                 MessageBox.Show($"Error subscribing to MQTT topics: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             });
                         }
@@ -362,7 +284,15 @@ namespace REG2Publisher
                     {
                         Bitmap screenshot = new Bitmap(stream);
 
-                        pictureBox1.Invoke(new Action(() => pictureBox1.Image = screenshot));
+                        pictureBox1.Invoke(new Action(() =>
+                        {
+                            if (pictureBox1.Image != null)
+                                pictureBox1.Image.Dispose(); // hapus gambar lama dari memory
+
+                            pictureBox1.Image = (Bitmap)screenshot.Clone(); // assign salinan gambar
+                        }));
+
+                        screenshot.Dispose();
 
                         Console.WriteLine("Tangkapan layar berhasil ditampilkan.");
                     }
@@ -372,6 +302,7 @@ namespace REG2Publisher
             {
                 this.Invoke((MethodInvoker)delegate
                 {
+                    Fungsi.Log("MqttClient", "Error processing received MQTT message:" + ex.Message);
                     MessageBox.Show($"Error processing received MQTT message: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 });
             }
@@ -403,9 +334,12 @@ namespace REG2Publisher
                                 txt_respons.Text += Environment.NewLine + textBox1.Text;
                                 commandHistory.Add(textBox1.Text);
                                 textBox1.Clear();
-
-                                string commandTopic2 = "COMMAND_" + clientid + "/SS/" + NikLogin;
-                                mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes("SS"));
+                                if (cb_capture.Checked == true)
+                                {
+                                    string commandTopic2 = "COMMAND_" + clientid + "/SS/" + NikLogin;
+                                    mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes("SS"));
+                                }
+                                
                             });
                         }
                     });
@@ -676,6 +610,81 @@ namespace REG2Publisher
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                Task.Run(() =>
+                {
+                    if (mqttClient !=null && mqttClient.IsConnected)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            string commandTopic3 = "COMMAND_" + clientid + "/BC/" + NikLogin;
+                            //string command = "for %D in (C D E) do if exist \"%D:\\REGUPD\\REGUPD.exe\" (start \"\" \"%D:\\REGUPD\\REGUPD.exe\" -auto & exit) else (echo REGUPD.exe tidak ditemukan di %D:)";
+                            string command = @"for %%D in (C D E) do (
+                            if exist ""%%D:\REGUPD\REGUPD.exe"" (
+                                ""%%D:\REGUPD\REGUPD.exe"" -auto
+                                echo Ditemukan di %%D: dan dijalankan.
+                                goto :EOF
+                            ) else (
+                                echo Tidak ditemukan di %%D:
+                            )
+                        )";
+
+                            
+                            mqttClient.Publish(commandTopic3, Encoding.UTF8.GetBytes(command));
+
+                        });
+                    }
+                }
+
+
+                );
+            }
+            catch (Exception ex)
+            {
+                Fungsi.Log("RUN REGUPD", ex.Message);
+            }
+        }
+
+        private void panel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Task.Run(() =>
+                {
+                    if (mqttClient != null && mqttClient.IsConnected)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            string commandTopic3 = "COMMAND_" + clientid + "/BC/" + NikLogin;
+                            string command = $"powershell -Command \"$tomorrow=(Get-Date).AddDays(1).ToString('dd'); $found=$false; foreach($d in Get-PSDrive -PSProvider FileSystem){{ $path=Join-Path ($d.Name+':\\') ('DTO\\{cabang}\\'+$tomorrow); if(Test-Path $path){{ Write-Host ('Folder ditemukan di drive '+$d.Name+':'); cmd /c dir $path; $found=$true; break }} }} if(-not $found){{ Write-Host 'Folder tidak ditemukan di semua drive.' }}\"";
+                            mqttClient.Publish(commandTopic3, Encoding.UTF8.GetBytes(command));
+
+                        });
+                    }
+                }
+
+
+                );
+            }
+            catch (Exception ex)
+            {
+                Fungsi.Log("RUN REGUPD", ex.Message);
+            }
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
         {
 
         }

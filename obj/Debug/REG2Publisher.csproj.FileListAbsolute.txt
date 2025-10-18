@@ -103,6 +103,8 @@ D:\VB\REG2Publisher\bin\Debug\K4os.Hash.xxHash.dll
 D:\VB\REG2Publisher\bin\Debug\M2Mqtt.Net.dll
 D:\VB\REG2Publisher\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 D:\VB\REG2Publisher\bin\Debug\MySql.Data.dll
+D:\VB\REG2Publisher\bin\Debug\Newtonsoft.Json.dll
+D:\VB\REG2Publisher\bin\Debug\REG.Fungsi.dll
 D:\VB\REG2Publisher\bin\Debug\System.Buffers.dll
 D:\VB\REG2Publisher\bin\Debug\System.Configuration.ConfigurationManager.dll
 D:\VB\REG2Publisher\bin\Debug\System.Diagnostics.DiagnosticSource.dll
@@ -121,6 +123,9 @@ D:\VB\REG2Publisher\bin\Debug\K4os.Hash.xxHash.xml
 D:\VB\REG2Publisher\bin\Debug\M2Mqtt.Net.pdb
 D:\VB\REG2Publisher\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 D:\VB\REG2Publisher\bin\Debug\MySql.Data.xml
+D:\VB\REG2Publisher\bin\Debug\Newtonsoft.Json.xml
+D:\VB\REG2Publisher\bin\Debug\REG.Fungsi.pdb
+D:\VB\REG2Publisher\bin\Debug\REG.Fungsi.xml
 D:\VB\REG2Publisher\bin\Debug\System.Buffers.xml
 D:\VB\REG2Publisher\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 D:\VB\REG2Publisher\bin\Debug\System.IO.Pipelines.xml
@@ -128,6 +133,7 @@ D:\VB\REG2Publisher\bin\Debug\System.Memory.xml
 D:\VB\REG2Publisher\bin\Debug\System.Numerics.Vectors.xml
 D:\VB\REG2Publisher\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\VB\REG2Publisher\bin\Debug\System.Threading.Tasks.Extensions.xml
+D:\VB\REG2Publisher\obj\Debug\REG2PubLink.exe.config
 D:\VB\REG2Publisher\obj\Debug\REG2Publisher.Frmbc.resources
 D:\VB\REG2Publisher\obj\Debug\REG2Publisher.FrmCapture.resources
 D:\VB\REG2Publisher\obj\Debug\REG2Publisher.FrmCek.resources
@@ -141,4 +147,3 @@ D:\VB\REG2Publisher\obj\Debug\REG2Publisher.csproj.CoreCompileInputs.cache
 D:\VB\REG2Publisher\obj\Debug\REG2Publisher.csproj.CopyComplete
 D:\VB\REG2Publisher\obj\Debug\REG2PubLink.exe
 D:\VB\REG2Publisher\obj\Debug\REG2PubLink.pdb
-D:\VB\REG2Publisher\obj\Debug\REG2Publisher.csproj.AssemblyReference.cache

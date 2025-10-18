@@ -80,9 +80,10 @@ namespace REG2Publisher
 
                     string versi1;
                     string versi2;
+                    string u, s;
                     if (count > 0)
                     {
-                        string SQL = "SELECT REPLACE(a.versi,'.','') versi1,REPLACE(b.versi,'.','') versi2 FROM userlogin a,const b WHERE a.nik='"+textBox1.Text+"' AND b.apps=2 ";
+                        string SQL = "SELECT REPLACE(a.versi,'.','') versi1,REPLACE(b.versi,'.','') versi2,a.versi as vkamu,b.versi as vserv FROM userlogin a,const b WHERE a.nik='" + textBox1.Text+"' AND b.apps=2 ";
                         MySqlCommand cmd0 = new MySqlCommand(SQL, connection);
                         using (MySqlDataReader reader = cmd0.ExecuteReader())
                         {
@@ -90,25 +91,29 @@ namespace REG2Publisher
                             {
                                 versi1 = reader.GetString("versi1");
                                 versi2 = reader.GetString("versi2");
-                                
+                                u = reader.GetString("vkamu");
+                                s = reader.GetString("vserv");
                                 int hasilPerbandingan = string.Compare(versi1, versi2);
                                 if (hasilPerbandingan < 0)
                                 {
                                     string pesan = "Apakah akan update versi ?\n\n" +
-                                     "Versi anda : " + versi1 + " \n" +
-                                     "Versi server : " + versi2 + " \n";
+                                     "Versi anda : " + u + " \n" +
+                                     "Versi server : " + s + " \n";
                                     DialogResult result = MessageBox.Show(pesan, "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                                     if (result == DialogResult.Yes)
                                     {
 
+                                       if (File.Exists(Application.StartupPath + "\\updater.exe")){
+
+                                        }
                                         string pathfull = Application.StartupPath;
                                         string batchFilePath = Path.Combine(pathfull, "updgrade.bat");
                                         string batchfile = @"cd /d """ + pathfull + @"""
                                         taskkill /f /im reg2*
                                         del /f /q Reg2Publink.exe
                                         del /f /q Reg2Publink.pdb
-                                        wget -P """ + pathfull + @""" --user=Backoff --password=123456 ftp://192.168.190.37:21/Reg2PubLink.zip -N
-                                        unzip -o Reg2PubLink.zip
+                                        wget -P """ + pathfull + @""" --user=simulasi --password=simulasi ftp://192.168.190.100:21/Prog/REG2PubLink.zip -N
+                                        unzip -o REG2PubLink.zip
                                         Reg2PubLink.exe
                                         exit";
 

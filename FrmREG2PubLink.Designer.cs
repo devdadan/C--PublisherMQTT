@@ -35,13 +35,16 @@ namespace REG2Publisher
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.button6 = new System.Windows.Forms.Button();
+            this.cb_capture = new System.Windows.Forms.CheckBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.BTN_RECONNECT = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.lbltampung = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.cb_client = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -53,7 +56,6 @@ namespace REG2Publisher
             this.lbl_client = new System.Windows.Forms.Label();
             this.lbl_load = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
             this.button3 = new System.Windows.Forms.Button();
@@ -96,7 +98,6 @@ namespace REG2Publisher
             this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.ImageList = this.imageList1;
             this.tabControl1.Location = new System.Drawing.Point(0, 44);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
@@ -127,6 +128,9 @@ namespace REG2Publisher
             this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.panel5.Controls.Add(this.button6);
+            this.panel5.Controls.Add(this.cb_capture);
+            this.panel5.Controls.Add(this.button4);
             this.panel5.Controls.Add(this.button1);
             this.panel5.Controls.Add(this.BTN_RECONNECT);
             this.panel5.Controls.Add(this.button5);
@@ -136,6 +140,71 @@ namespace REG2Publisher
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(574, 496);
             this.panel5.TabIndex = 13;
+            this.panel5.Paint += new System.Windows.Forms.PaintEventHandler(this.panel5_Paint);
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.Color.BlueViolet;
+            this.button6.FlatAppearance.BorderSize = 0;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.button6.Image = global::REG2PubLink.Properties.Resources.icons8_rdp_connection_20;
+            this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button6.Location = new System.Drawing.Point(4, 442);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(188, 34);
+            this.button6.TabIndex = 15;
+            this.button6.Text = "CEK DTO BESOK";
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // cb_capture
+            // 
+            this.cb_capture.AutoSize = true;
+            this.cb_capture.Location = new System.Drawing.Point(5, 42);
+            this.cb_capture.Name = "cb_capture";
+            this.cb_capture.Size = new System.Drawing.Size(113, 21);
+            this.cb_capture.TabIndex = 14;
+            this.cb_capture.Text = "Auto Capture";
+            this.cb_capture.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.BlueViolet;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.button4.Image = global::REG2PubLink.Properties.Resources.icons8_rdp_connection_20;
+            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button4.Location = new System.Drawing.Point(209, 358);
+            this.button4.Margin = new System.Windows.Forms.Padding(4);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(188, 34);
+            this.button4.TabIndex = 13;
+            this.button4.Text = "RUN REGUPD";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Purple;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.button1.Image = global::REG2PubLink.Properties.Resources.icons8_rdp_connection_20;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(4, 400);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(188, 34);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "RDP";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // BTN_RECONNECT
             // 
@@ -146,10 +215,10 @@ namespace REG2Publisher
             this.BTN_RECONNECT.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.BTN_RECONNECT.Image = global::REG2PubLink.Properties.Resources.icons8_reload_20;
             this.BTN_RECONNECT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_RECONNECT.Location = new System.Drawing.Point(159, 358);
+            this.BTN_RECONNECT.Location = new System.Drawing.Point(209, 442);
             this.BTN_RECONNECT.Margin = new System.Windows.Forms.Padding(4);
             this.BTN_RECONNECT.Name = "BTN_RECONNECT";
-            this.BTN_RECONNECT.Size = new System.Drawing.Size(147, 34);
+            this.BTN_RECONNECT.Size = new System.Drawing.Size(188, 34);
             this.BTN_RECONNECT.TabIndex = 4;
             this.BTN_RECONNECT.Text = "RECONNECT";
             this.BTN_RECONNECT.UseVisualStyleBackColor = false;
@@ -167,7 +236,7 @@ namespace REG2Publisher
             this.button5.Location = new System.Drawing.Point(4, 358);
             this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(147, 34);
+            this.button5.Size = new System.Drawing.Size(188, 34);
             this.button5.TabIndex = 12;
             this.button5.Text = "CAPTURE";
             this.button5.UseVisualStyleBackColor = false;
@@ -202,9 +271,9 @@ namespace REG2Publisher
             this.listBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 18;
-            this.listBox1.Location = new System.Drawing.Point(9, 329);
+            this.listBox1.Location = new System.Drawing.Point(7, 352);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(204, 202);
+            this.listBox1.Size = new System.Drawing.Size(204, 184);
             this.listBox1.TabIndex = 12;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
@@ -225,26 +294,6 @@ namespace REG2Publisher
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "COMMAND";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.BackColor = System.Drawing.Color.Purple;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.button1.Image = global::REG2PubLink.Properties.Resources.icons8_rdp_connection_20;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(4, 400);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(147, 34);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "RDP";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // panel3
             // 
@@ -387,17 +436,6 @@ namespace REG2Publisher
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "ZipDTO";
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 28);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage3.Size = new System.Drawing.Size(1415, 720);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "BROADCAST";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
@@ -520,12 +558,14 @@ namespace REG2Publisher
         private System.Windows.Forms.Label lbl_rdp;
         private System.Windows.Forms.TextBox txt_rdp;
         private System.Windows.Forms.Button BTN_RECONNECT;
-        private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lbltampung;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.CheckBox cb_capture;
+        private System.Windows.Forms.Button button6;
     }
 }
 

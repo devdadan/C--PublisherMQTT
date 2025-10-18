@@ -13,6 +13,10 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 using MySql.Data.MySqlClient;
 using System.Net;
 using System.Runtime.InteropServices;
+using REG.Fungsi;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+
 namespace REG2Publisher
 {
     public partial class FrmDTO : Form
@@ -28,7 +32,8 @@ namespace REG2Publisher
         public string inisaha;
         public string c_id;
         public string ServerBroker;
-        REG2Class Fungsi = new REG2Class();
+        REG2Class myFungsi = new REG2Class();
+ 
         public FrmDTO()
         {
             InitializeComponent();
@@ -39,9 +44,9 @@ namespace REG2Publisher
             {
                 var topic = e.Topic;
                 var message = Encoding.UTF8.GetString(e.Message);
-                if (topic == "RESPONS_" + Fungsi.Nametmp + "/DTO/" + NikLogin)
+                if (topic == "RESPONS_" + myFungsi.Nametmp + "/DTO/" + NikLogin)
                 {
-                   txt_respons2.Text += Environment.NewLine + message;
+                   logging(Environment.NewLine + message);
                    txt_respons2.SelectionStart = txt_respons2.Text.Length;
                    txt_respons2.ScrollToCaret();
                 }
@@ -55,69 +60,116 @@ namespace REG2Publisher
 
         private void getDatacabang()
         {
-            string connectionString = Fungsi.connectionString;
-            MySqlConnection connection = new MySqlConnection(connectionString);
             try
             {
-                connection.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM m_cabang where recid='*' and kdcab not in('G219') order by kdcab", connection);
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                string payload = "{" +
+                    "\"opt\":\"get\"," +
+                    "\"sql\":\"SELECT * FROM publink.m_cabang WHERE recid='*' AND kdcab NOT IN('G219','REG2') ORDER BY kdcab\"" +
+                    "}";
+                Console.WriteLine(payload);
+                string response = Fungsi.ApiRequest(payload);
+
+                // 🔍 Cek jika response bukan JSON
+                if (string.IsNullOrWhiteSpace(response) || !response.TrimStart().StartsWith("{"))
                 {
-                    while (reader.Read())
-                    {
-                        string kdcab = reader.GetString("KDCAB");
-                        string namacab = reader.GetString("NAMA");
-                        ipcab = reader.GetString("SERVER");
-                        usercab = reader.GetString("RDP_USER");
-                        passcab = reader.GetString("RDP_PASS");
-                        ck_cabang.Items.Add(kdcab + " - " + namacab, CheckState.Unchecked);
-                        ck_cabang.Tag = kdcab;
-                    }
+                    myFungsi.Log("getDatacabang", "Response bukan JSON: " + response);
+                    MessageBox.Show("Gagal mendapatkan data cabang dari server:\n" + response,
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
+                JObject json = JObject.Parse(response);
+
+                if (json["success"] != null && json["success"].Value<bool>() == true)
+                {
+                    JArray dataArray = (JArray)json["data"];
+                    DataTable dt = JsonConvert.DeserializeObject<DataTable>(dataArray.ToString());
+
+                    ck_cabang.Items.Clear();
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        string kdcab = row["KDCAB"].ToString();
+                        string namacab = row["NAMA"].ToString();
+                        string ipcab = row["SERVER"].ToString();
+                        string usercab = row["RDP_USER"].ToString();
+                        string passcab = row["RDP_PASS"].ToString();
+
+                        ck_cabang.Items.Add($"{kdcab} _ {namacab}", CheckState.Unchecked);
+                        // ❌ Hapus baris ini: ck_cabang.Tag = kdcab;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Server mengembalikan hasil gagal.\nResponse:\n" + response,
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.Close();
+                }
             }
             catch (Exception ex)
             {
-                Fungsi.Log("getDatacabang", ex.Message);
-                Console.WriteLine("Error: " + ex.Message);
-                MessageBox.Show("getDatacabang error : " + ex.Message);
-                this.Close();
-                throw;
-            }
-            finally
-            {
-                connection.Close();
+                myFungsi.Log("getDatacabang", "Exception: " + ex.Message);
+                MessageBox.Show("getDatacabang error : " + ex.Message, "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void GetListZip()
         {
-            string connectionString = Fungsi.connectionString;
-            MySqlConnection connection = new MySqlConnection(connectionString);
+           
             try
             {
-                connection.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT nama_file FROM m_file WHERE recid='*' ORDER BY nama_file", connection);
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                string payload = "{" +
+                    "\"opt\":\"get\"," +
+                    "\"sql\":\"SELECT nama_file FROM publink.m_file WHERE recid='*' ORDER BY nama_file\"" +
+                    "}";
+                Console.WriteLine(payload);
+                string response = Fungsi.ApiRequest(payload);
+
+                // 🔍 Cek jika response bukan JSON
+                if (string.IsNullOrWhiteSpace(response) || !response.TrimStart().StartsWith("{"))
                 {
-                    while (reader.Read())
+                    myFungsi.Log("GetListZip", "Response bukan JSON: " + response);
+                    MessageBox.Show("Gagal mendapatkan data List Zip dari server:\n" + response,
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                JObject json = JObject.Parse(response);
+
+                if (json["success"] != null && json["success"].Value<bool>() == true)
+                {
+                    JArray dataArray = (JArray)json["data"];
+                    DataTable dt = JsonConvert.DeserializeObject<DataTable>(dataArray.ToString());
+
+                    ck_files.Items.Clear();
+
+                    foreach (DataRow row in dt.Rows)
                     {
-                        string files = reader.GetString("nama_file");
-                        ck_files.Items.Add(files, CheckState.Unchecked);
-                        ck_files.Tag = files;
+                        string files = row["nama_file"].ToString();
+
+                        ck_files.Items.Add($"{files}", CheckState.Unchecked);
+                        // ❌ Hapus baris ini: ck_cabang.Tag = kdcab;
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Server mengembalikan hasil gagal.\nResponse:\n" + response,
+                                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.Close();
+                }
+
 
             }
             catch (Exception ex)
             {
-                Fungsi.Log("GetListZip", ex.Message);
+                myFungsi.Log("GetListZip", ex.Message);
                 Console.WriteLine("Error: " + ex.Message);
                 this.Close();
-                throw;
             }
             finally
             {
-                connection.Close();
+              
             }
         }
         private void konekbroker2(string sclinet)
@@ -207,9 +259,9 @@ namespace REG2Publisher
                         string commandTopic2 = "COMMAND_" + tampung + "/DTO/" + NikLogin;
                         mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes(perintah));
                         DateTime currentTime = DateTime.Now;
-                        txt_respons2.Text += Environment.NewLine + tampung + "@ " + currentTime;
-                        txt_respons2.Text += Environment.NewLine + perintah;
-                        txt_respons2.Text += Environment.NewLine;
+                        logging(Environment.NewLine + tampung + "@ " + currentTime);
+                        logging(Environment.NewLine + perintah);
+                        logging(Environment.NewLine);
                     }
                 }
                 catch (Exception ex1)
@@ -242,7 +294,7 @@ namespace REG2Publisher
                 result.Remove(result.Length - 1, 1);
 
             listcab = result.ToString();
-            txt_respons2.Text += "Get Listcab " + listcab +"\n";
+            logging("Get Listcab " + listcab +"");
             string listfiles = "";
             StringBuilder result2 = new StringBuilder();
             foreach (var itemChecked2 in ck_files.CheckedItems)
@@ -256,11 +308,11 @@ namespace REG2Publisher
                 result2.Remove(result2.Length - 1, 1);
 
             listfiles = result2.ToString();
-            txt_respons2.Text += "Get Listfile " + listfiles +"\n";
+            logging("Get Listfile " + listfiles +"");
             string tgl = dateTimePicker1.Text;
             int m = ck_cabang.CheckedItems.Count;
 
-            string connectionString = Fungsi.connectionString;
+            string connectionString = myFungsi.connectionString;
             MySqlConnection connection = new MySqlConnection(connectionString);
             try
             {
@@ -285,71 +337,74 @@ namespace REG2Publisher
                         inittampung = "TAMPUNG_" + acb;
                         string connectiontmp = "";
                         connectiontmp = "server=" + aserv + ";user=" + auser + ";password=" + apass + ";database=" + adb + ";";
-                        txt_respons2.Text += "Proses ke 1 " + inittampung +"\n";
-                        txt_respons2.Text += connectiontmp + "\n";
+                        logging("Proses ke " + inittampung +"");
                         MySqlConnection con2 = new MySqlConnection(connectiontmp);
-                        if (Fungsi.CheckPing(aserv))
+                        if (myFungsi.CheckPing(aserv))
                         {
-                            txt_respons2.Text += "Sukses ping ke server " + aserv +"\n";
+                            logging("Sukses ping ke server " + aserv +"");
                             if (!(acb == "G009") && !(acb == "G257") && !(acb == "G259") && !(acb == "G218"))
                             {
                                 FrmCek cek = new FrmCek();
-                                Fungsi.Nametmp = inittampung;
+                                myFungsi.Nametmp = inittampung;
                                 cek.ShowDialog();
                                 if (cek.hasil)
                                 {
-                                    txt_respons2.Text = "Terkoneksi ke listener " + inittampung +"\n";
+                                    logging("Terkoneksi ke listener " + inittampung +"");
                                     try
                                     {
                                         if (con2.State != ConnectionState.Open)
                                         {
                                             con2.Open();
                                         }
-                                        txt_respons2.Text += "Create table command \n";
+                                        logging("Create table command ");
                                         MySqlCommand cmd1 = new MySqlCommand("CREATE TABLE if not exists `command` (`id` INT(11) NOT NULL AUTO_INCREMENT,`jenis_command` VARCHAR(20) DEFAULT '',`Tanggal` VARCHAR(20) DEFAULT NULL,`isi_command` TEXT,`stat_command` CHAR(1) DEFAULT '*',PRIMARY KEY (`id`)) ENGINE=INNODB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1", con2);
                                         cmd1.ExecuteNonQuery();
-                                        txt_respons2.Text += "update command 1 \n";
+                                        logging("update command 1 ");
                                         MySqlCommand cmd2 = new MySqlCommand("UPDATE COMMAND SET STAT_COMMAND='1' WHERE STAT_COMMAND='*'", con2);
                                         cmd2.ExecuteNonQuery();
-                                        txt_respons2.Text += "Insert comand \n";
+                                        logging("Insert comand ");
                                         MySqlCommand cmd3 = new MySqlCommand("INSERT INTO COMMAND (JENIS_COMMAND, TANGGAL, ISI_COMMAND) VALUES (@JenisCommand, @Tanggal, @IsiCommand)", con2);
                                         cmd3.Parameters.AddWithValue("@JenisCommand", "A");
                                         cmd3.Parameters.AddWithValue("@Tanggal", tgl);
                                         cmd3.Parameters.AddWithValue("@IsiCommand", listfiles);
                                         cmd3.ExecuteNonQuery();
 
-                                        txt_respons2.Text += "Send command \n";
+                                        logging("Send command ");
                                         SendCOmmand(inittampung);
 
                                         button1.Text = "Proses ke : " + acb + " - " + aserv;
                                     }
                                     catch (Exception ex1)
                                     {
-                                        Fungsi.Log("KirimTUgas", ex1.Message + ex1.StackTrace);
+                                        myFungsi.Log("KirimTUgas", ex1.Message + ex1.StackTrace);
                                         MessageBox.Show("KirimTUgas" + ex1.Message + ex1.StackTrace);
 
                                     }
                                 }
                                 else
                                 {
-                                    txt_respons2.Text += Environment.NewLine;
-                                    txt_respons2.Text += "GAGAL KIRIM KE " + inittampung + " KARENA LISTENERS OFFLINE";
+                                   
+                                    logging("GAGAL KIRIM KE " + inittampung + " KARENA LISTENERS OFFLINE ");
                                 }
+                               
+
                             }
                             else
                             {
                                 if (!(ismdn))
                                 {
                                     FrmCek cek = new FrmCek();
-                                    Fungsi.Nametmp = inittampung;
+                                    myFungsi.Nametmp = inittampung;
                                     cek.ShowDialog();
                                     if (cek.hasil)
                                     {
-                                        Fungsi.Log("Cek looping mdn ", acb);
+                                        logging("update command 1 ");
+                                        myFungsi.Log("Cek looping mdn ", acb);
                                         MySqlCommand cmda = new MySqlCommand("UPDATE COMMAND SET STAT_COMMAND='1' WHERE STAT_COMMAND='*'", con2);
                                         cmda.ExecuteNonQuery();
                                         cmda.Dispose();
 
+                                        logging("insert command  ");
                                         MySqlCommand cmd3a = new MySqlCommand("INSERT INTO COMMAND (JENIS_COMMAND, TANGGAL, ISI_COMMAND,CAB) VALUES (@JenisCommand, @Tanggal, @IsiCommand,@IsiCab)", con2);
                                         cmd3a.Parameters.AddWithValue("@JenisCommand", "A");
                                         cmd3a.Parameters.AddWithValue("@Tanggal", tgl);
@@ -358,12 +413,13 @@ namespace REG2Publisher
                                         cmd3a.ExecuteNonQuery();
                                         cmd3a.Dispose();
 
+                                        logging("Send command  ");
                                         SendCOmmand("TAMPUNG_G009");
                                         ismdn = true;
                                     }
                                     else
                                     {
-                                        txt_respons2.Text += "GAGAL KIRIM KE " + inittampung + " KARENA LISTENERS OFFLINE \n";
+                                        logging("GAGAL KIRIM KE " + inittampung + " KARENA LISTENERS OFFLINE ");
                                     }
                                 }
                                 
@@ -373,9 +429,11 @@ namespace REG2Publisher
                         }
                         else
                         {
-                            Fungsi.Log("KirimTUgas", "Tidak terkoneksi ke " + aserv);
+                            logging(aserv + " LISTENER OFFLINE SILAHKAN REMOTE MANUAL ");
+                            myFungsi.Log("KirimTUgas", "Tidak terkoneksi ke " + aserv);
                         }
-                        
+                        logging("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ");
+
                     }
                     
                      
@@ -385,7 +443,7 @@ namespace REG2Publisher
             catch (Exception ex)
             {
 
-                Fungsi.Log("KirimTugas", ex.Message);
+                myFungsi.Log("KirimTugas", ex.Message);
                 MessageBox.Show("Error: " + ex.Message + ex.StackTrace);
                 //this.Close();
             }
@@ -395,6 +453,19 @@ namespace REG2Publisher
                 //connection.Close();
             }
         }
+        private void logging(string tex)
+        {
+            if (txt_respons2.InvokeRequired)
+            {
+                txt_respons2.Invoke(new Action(() => logging(tex)));
+                return;
+            }
+
+            txt_respons2.AppendText($"{tex}\r");
+            myFungsi.Log("Logs", tex);
+        }
+
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             
@@ -473,7 +544,7 @@ namespace REG2Publisher
                         else
                         {
                             FrmCek ah = new FrmCek();
-                            Fungsi.Nametmp = "TAMPUNG_" + tagValue;
+                            myFungsi.Nametmp = "TAMPUNG_" + tagValue;
                             ah.ShowDialog();
                             if (ah.hasil)
                             {
@@ -486,15 +557,15 @@ namespace REG2Publisher
                                     string commandTopic2 = "COMMAND_" + "TAMPUNG_" + tagValue + "/DTO/" + NikLogin;
                                     mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes(script));
                                     DateTime currentTime = DateTime.Now;
-                                    txt_respons2.Text += Environment.NewLine + "TAMPUNG_" + tagValue + "@ " + currentTime;
-                                    txt_respons2.Text += Environment.NewLine + script;
-                                    txt_respons2.Text += Environment.NewLine;
+                                    logging(Environment.NewLine + "TAMPUNG_" + tagValue + "@ " + currentTime);
+                                    logging(Environment.NewLine + script);
+                                    logging(Environment.NewLine);
                                 }
                             }
                             else
                             {
-                                txt_respons2.Text += Environment.NewLine;
-                                txt_respons2.Text += "DOWNLOAD FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue;
+                                logging(Environment.NewLine);
+                                logging("DOWNLOAD FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue);
 
                             }
 
@@ -505,7 +576,7 @@ namespace REG2Publisher
                     if (ismdn2)
                     {
                         FrmCek ah2 = new FrmCek();
-                        Fungsi.Nametmp = "TAMPUNG_G009";
+                        myFungsi.Nametmp = "TAMPUNG_G009";
                         ah2.ShowDialog();
                         if (ah2.hasil)
                         {
@@ -518,15 +589,15 @@ namespace REG2Publisher
                                 string commandTopic2 = "COMMAND_" + "TAMPUNG_G009/DTO/" + NikLogin;
                                 mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes(script));
                                 DateTime currentTime = DateTime.Now;
-                                txt_respons2.Text += Environment.NewLine + "TAMPUNG_G009@ " + currentTime;
-                                txt_respons2.Text += Environment.NewLine + script;
-                                txt_respons2.Text += Environment.NewLine;
+                                logging(Environment.NewLine + "TAMPUNG_G009@ " + currentTime);
+                                logging(Environment.NewLine + script);
+                                logging(Environment.NewLine);
                             }
                         }
                         else
                         {
-                            txt_respons2.Text += Environment.NewLine;
-                            txt_respons2.Text += "DOWNLOAD FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_G009";
+                            logging(Environment.NewLine);
+                            logging("DOWNLOAD FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_G009");
 
                         }
 
@@ -537,7 +608,7 @@ namespace REG2Publisher
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                Fungsi.Log("Download", ex.Message);
+                myFungsi.Log("Download", ex.Message);
             }
 
             btnDown.Text = "Selesai";
@@ -570,10 +641,14 @@ namespace REG2Publisher
 
         private void FrmDTO_Load(object sender, EventArgs e)
         {
-            ServerBroker = Fungsi.Server;
+            ServerBroker = myFungsi.Server;
             c_id= NikLogin + "DTO";
             getDatacabang();
             GetListZip();
+            btnDown.Visible = false;
+            button3.Visible = false;
+            button2.Visible = false;
+            
         }
 
         private void check2_CheckedChanged(object sender, EventArgs e)
@@ -801,7 +876,7 @@ namespace REG2Publisher
                     if (!(tagValue == "G009") && !(tagValue == "G257") && !(tagValue == "G259") && !(tagValue == "G218"))
                     {
                         FrmCek ah = new FrmCek();
-                        Fungsi.Nametmp = "TAMPUNG_" + tagValue;
+                        myFungsi.Nametmp = "TAMPUNG_" + tagValue;
                         ah.ShowDialog();
                         if (ah.hasil)
                         {
@@ -846,22 +921,22 @@ namespace REG2Publisher
                                 string commandTopic2 = "COMMAND_" + "TAMPUNG_" + tagValue + "/DTO/" + NikLogin;
                                 mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes(script1));
                                 DateTime currentTime = DateTime.Now;
-                                txt_respons2.Text += Environment.NewLine + NikLogin + "@ " + currentTime;
-                                txt_respons2.Text += Environment.NewLine + "Cek ZIP " + tagValue;
-                                txt_respons2.Text += Environment.NewLine;
+                                logging(Environment.NewLine + NikLogin + "@ " + currentTime);
+                                logging(Environment.NewLine + "Cek ZIP " + tagValue);
+                                logging(Environment.NewLine);
                             }
                         }
                         else
                         {
-                            txt_respons2.Text += Environment.NewLine;
-                            txt_respons2.Text += "CEK FILE FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue;
+                            logging(Environment.NewLine);
+                            logging("CEK FILE FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue);
 
                         }
                     }
                     else
                     {
                         FrmCek ah = new FrmCek();
-                        Fungsi.Nametmp = "TAMPUNG_G009";
+                        myFungsi.Nametmp = "TAMPUNG_G009";
                         ah.ShowDialog();
                         if (ah.hasil)
                         {
@@ -887,15 +962,15 @@ namespace REG2Publisher
                                 string commandTopic2 = "COMMAND_" + "TAMPUNG_G009/DTO/" + NikLogin;
                                 mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes(script1));
                                 DateTime currentTime = DateTime.Now;
-                                txt_respons2.Text += Environment.NewLine + NikLogin + "@ " + currentTime;
-                                txt_respons2.Text += Environment.NewLine + "Cek ZIP " + tagValue;
-                                txt_respons2.Text += Environment.NewLine;
+                                logging(Environment.NewLine + NikLogin + "@ " + currentTime);
+                                logging(Environment.NewLine + "Cek ZIP " + tagValue);
+                                logging(Environment.NewLine);
                             }
                         }
                         else
                         {
-                            txt_respons2.Text += Environment.NewLine;
-                            txt_respons2.Text += "CEK FILE FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue;
+                            logging(Environment.NewLine);
+                            logging("CEK FILE FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue);
 
                         }
                     }
@@ -906,7 +981,7 @@ namespace REG2Publisher
             }
             catch (Exception ex)
             {
-                Fungsi.Log("DIR", ex.Message);
+                myFungsi.Log("DIR", ex.Message);
                 MessageBox.Show("DIR Error : " + ex.Message);
                 this.Close();
             }
@@ -951,7 +1026,7 @@ namespace REG2Publisher
                     {
                         
                         FrmCek ah = new FrmCek();
-                        Fungsi.Nametmp = "TAMPUNG_" + tagValue;
+                        myFungsi.Nametmp = "TAMPUNG_" + tagValue;
                         ah.ShowDialog();
                         if (ah.hasil)
                         {
@@ -994,22 +1069,22 @@ namespace REG2Publisher
                                 string commandTopic2 = "COMMAND_" + "TAMPUNG_" + tagValue + "/DTO/" + NikLogin;
                                 mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes(script1));
                                 DateTime currentTime = DateTime.Now;
-                                txt_respons2.Text += Environment.NewLine + NikLogin + "@ " + currentTime;
-                                txt_respons2.Text += Environment.NewLine + "UNZIP -V DTO " + tagValue;
-                                txt_respons2.Text += Environment.NewLine;
+                                logging(Environment.NewLine + NikLogin + "@ " + currentTime);
+                                logging(Environment.NewLine + "UNZIP -V DTO " + tagValue);
+                                logging(Environment.NewLine);
                             }
                         }
                         else
                         {
-                            txt_respons2.Text += Environment.NewLine;
-                            txt_respons2.Text += "VIEW UNZIP GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue;
+                            logging(Environment.NewLine);
+                            logging("VIEW UNZIP GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue);
 
                         }
                     }
                     else
                     {
                         FrmCek ah = new FrmCek();
-                        Fungsi.Nametmp = "TAMPUNG_G009";
+                        myFungsi.Nametmp = "TAMPUNG_G009";
                         ah.ShowDialog();
                         if (ah.hasil)
                         {
@@ -1041,15 +1116,15 @@ namespace REG2Publisher
                                 string commandTopic2 = "COMMAND_" + "TAMPUNG_G009/DTO/" + NikLogin;
                                 mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes(script1));
                                 DateTime currentTime = DateTime.Now;
-                                txt_respons2.Text += Environment.NewLine + NikLogin + "@ " + currentTime;
-                                txt_respons2.Text += Environment.NewLine + "Cek ZIP " + tagValue;
-                                txt_respons2.Text += Environment.NewLine;
+                                logging(Environment.NewLine + NikLogin + "@ " + currentTime);
+                                logging(Environment.NewLine + "Cek ZIP " + tagValue);
+                                logging(Environment.NewLine);
                             }
                         }
                         else
                         {
-                            txt_respons2.Text += Environment.NewLine;
-                            txt_respons2.Text += "UNZIP FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue;
+                            logging(Environment.NewLine);
+                            logging("UNZIP FILE GAGAL KARENA LISTENER OFFLINE : " + "TAMPUNG_" + tagValue);
 
                         }
                     }
@@ -1061,7 +1136,7 @@ namespace REG2Publisher
             }
             catch (Exception ex)
             {
-                Fungsi.Log("DIR", ex.Message);
+                myFungsi.Log("DIR", ex.Message);
                 MessageBox.Show("DIR Error : " + ex.Message);
                 this.Close();
             }
@@ -1071,6 +1146,11 @@ namespace REG2Publisher
         }
 
         private void txt_respons2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelmg_Paint(object sender, PaintEventArgs e)
         {
 
         }

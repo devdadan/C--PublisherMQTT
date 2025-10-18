@@ -29,10 +29,8 @@ namespace REG2Publisher
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmDTO));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.check2 = new System.Windows.Forms.CheckBox();
             this.check1 = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -71,7 +69,7 @@ namespace REG2Publisher
             this.groupBox2.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(303, 573);
+            this.groupBox2.Size = new System.Drawing.Size(303, 747);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "SETTING";
@@ -79,19 +77,11 @@ namespace REG2Publisher
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Moccasin;
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(6, 405);
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Location = new System.Drawing.Point(6, 573);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(291, 162);
             this.panel1.TabIndex = 8;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(6, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(282, 148);
-            this.label1.TabIndex = 0;
-            this.label1.Text = resources.GetString("label1.Text");
             // 
             // check2
             // 
@@ -100,7 +90,7 @@ namespace REG2Publisher
             this.check2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.check2.Location = new System.Drawing.Point(214, 228);
             this.check2.Name = "check2";
-            this.check2.Size = new System.Drawing.Size(80, 17);
+            this.check2.Size = new System.Drawing.Size(102, 21);
             this.check2.TabIndex = 7;
             this.check2.Text = "Check ALL";
             this.check2.UseVisualStyleBackColor = true;
@@ -113,7 +103,7 @@ namespace REG2Publisher
             this.check1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.check1.Location = new System.Drawing.Point(217, 12);
             this.check1.Name = "check1";
-            this.check1.Size = new System.Drawing.Size(80, 17);
+            this.check1.Size = new System.Drawing.Size(102, 21);
             this.check1.TabIndex = 6;
             this.check1.Text = "Check ALL";
             this.check1.UseVisualStyleBackColor = true;
@@ -126,7 +116,7 @@ namespace REG2Publisher
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label2.Location = new System.Drawing.Point(4, 229);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 13);
+            this.label2.Size = new System.Drawing.Size(40, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "File";
             // 
@@ -137,7 +127,7 @@ namespace REG2Publisher
             this.ck_files.FormattingEnabled = true;
             this.ck_files.Location = new System.Drawing.Point(6, 245);
             this.ck_files.Name = "ck_files";
-            this.ck_files.Size = new System.Drawing.Size(291, 154);
+            this.ck_files.Size = new System.Drawing.Size(291, 137);
             this.ck_files.TabIndex = 4;
             // 
             // dateTimePicker1
@@ -147,7 +137,7 @@ namespace REG2Publisher
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker1.Location = new System.Drawing.Point(6, 207);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(157, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(157, 24);
             this.dateTimePicker1.TabIndex = 3;
             // 
             // label4
@@ -157,7 +147,7 @@ namespace REG2Publisher
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label4.Location = new System.Drawing.Point(3, 191);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(43, 13);
+            this.label4.Size = new System.Drawing.Size(56, 17);
             this.label4.TabIndex = 2;
             this.label4.Text = "Period";
             // 
@@ -168,7 +158,7 @@ namespace REG2Publisher
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.label5.Location = new System.Drawing.Point(5, 16);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(43, 13);
+            this.label5.Size = new System.Drawing.Size(56, 17);
             this.label5.TabIndex = 1;
             this.label5.Text = "Cabang";
             // 
@@ -179,7 +169,7 @@ namespace REG2Publisher
             this.ck_cabang.FormattingEnabled = true;
             this.ck_cabang.Location = new System.Drawing.Point(6, 32);
             this.ck_cabang.Name = "ck_cabang";
-            this.ck_cabang.Size = new System.Drawing.Size(291, 154);
+            this.ck_cabang.Size = new System.Drawing.Size(291, 137);
             this.ck_cabang.TabIndex = 0;
             // 
             // txt_respons2
@@ -190,7 +180,7 @@ namespace REG2Publisher
             this.txt_respons2.Location = new System.Drawing.Point(6, 14);
             this.txt_respons2.Name = "txt_respons2";
             this.txt_respons2.ReadOnly = true;
-            this.txt_respons2.Size = new System.Drawing.Size(713, 308);
+            this.txt_respons2.Size = new System.Drawing.Size(942, 655);
             this.txt_respons2.TabIndex = 7;
             this.txt_respons2.Text = "";
             this.txt_respons2.TextChanged += new System.EventHandler(this.txt_respons2_TextChanged);
@@ -205,7 +195,7 @@ namespace REG2Publisher
             this.groupBox1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(310, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(725, 328);
+            this.groupBox1.Size = new System.Drawing.Size(954, 675);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "LOG DAN RESPONS";
@@ -219,7 +209,7 @@ namespace REG2Publisher
             this.button2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.button2.Image = global::REG2PubLink.Properties.Resources.icons8_zipper_slider_30;
             this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.Location = new System.Drawing.Point(490, 442);
+            this.button2.Location = new System.Drawing.Point(904, 864);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(545, 46);
             this.button2.TabIndex = 1;
@@ -236,7 +226,7 @@ namespace REG2Publisher
             this.button3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.button3.Image = global::REG2PubLink.Properties.Resources.icons8_zipper_slider_30;
             this.button3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.Location = new System.Drawing.Point(490, 390);
+            this.button3.Location = new System.Drawing.Point(904, 812);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(545, 46);
             this.button3.TabIndex = 2;
@@ -253,7 +243,7 @@ namespace REG2Publisher
             this.btnDown.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.btnDown.Image = global::REG2PubLink.Properties.Resources.icons8_download_30__1_;
             this.btnDown.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDown.Location = new System.Drawing.Point(490, 338);
+            this.btnDown.Location = new System.Drawing.Point(904, 760);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(545, 46);
             this.btnDown.TabIndex = 0;
@@ -270,9 +260,9 @@ namespace REG2Publisher
             this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.button1.Image = global::REG2PubLink.Properties.Resources.icons8_zip_30;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(314, 507);
+            this.button1.Location = new System.Drawing.Point(316, 681);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(721, 54);
+            this.button1.Size = new System.Drawing.Size(942, 54);
             this.button1.TabIndex = 6;
             this.button1.Text = "SEND COMMAND ZIP";
             this.button1.UseVisualStyleBackColor = false;
@@ -281,7 +271,7 @@ namespace REG2Publisher
             // pictureBox1
             // 
             this.pictureBox1.Image = global::REG2PubLink.Properties.Resources.zip;
-            this.pictureBox1.Location = new System.Drawing.Point(313, 334);
+            this.pictureBox1.Location = new System.Drawing.Point(47, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(171, 154);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -290,11 +280,10 @@ namespace REG2Publisher
             // 
             // FrmDTO
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1047, 573);
-            this.Controls.Add(this.pictureBox1);
+            this.ClientSize = new System.Drawing.Size(1276, 747);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.groupBox1);
@@ -333,7 +322,6 @@ namespace REG2Publisher
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
