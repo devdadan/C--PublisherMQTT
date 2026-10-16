@@ -17,7 +17,7 @@ namespace REG2Publisher
         private static string _server;
         private static string _nametmp;
         private static string _niklogin;
-        public string connectionString = "server=192.168.190.100;user=root;password=15032012;database=publink;";
+        public string connectionString = "server=192.168.190.101;user=user_rnd;password=PasswordRnd123;database=edp_app;";
         public string Server
         {
             set { _server = value; }
@@ -97,7 +97,7 @@ namespace REG2Publisher
         {
             try
             {
-                string query = "SELECT CONCAT(SERVER,'|',RDP_USER,'|',RDP_PASS) AS RDP FROM m_cabang WHERE KDCAB = @kdcab";
+                string query = "SELECT CONCAT(SERVER,'|',RDP_USER,'|',RDP_PASS) AS RDP FROM master_cabang WHERE KDCAB = @kdcab";
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {

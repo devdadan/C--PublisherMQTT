@@ -53,36 +53,34 @@ namespace REG2Publisher
             BTN_RECONNECT.Visible = false;
             textBox1.Enabled = false;
             c_id = NikLogin + "BC";
-            System.Windows.Forms.Control.CheckForIllegalCrossThreadCalls = false;
+
             lblinit.Text = $"{Application.ProductName} v{Application.ProductVersion}";
             getip();
             getDatacabang();
             lbl_client.Text = "";
-            FrmDTO childForm = new FrmDTO();
 
+            FrmDTO childForm = new FrmDTO();
             childForm.TopLevel = false;
             tabPage2.Controls.Add(childForm);
-
-            //Frmbc bc = new Frmbc();
-            //bc.TopLevel = false;
-            //tabPage3.Controls.Add(bc);
-            
-
             childForm.NikLogin = NikLogin;
             childForm.Show();
-            //bc.Show();
+
             lbltampung.Text = "";
             button5.Enabled = false;
             BTN_RECONNECT.Enabled = false;
-            //pictureBox1.Image = null;
             cb_capture.Checked = false;
-            
         }
-     
+
+
         private void cb_client_SelectedIndexChanged(object sender, EventArgs e)
         {
            
             
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            PublishMqtt(TopicCommandSS(clientid), "SS");
         }
 
 
@@ -104,94 +102,102 @@ namespace REG2Publisher
                 mqttClient.Disconnect();
             }
         }
+        // Tambahkan sebagai field kelas
+        private Dictionary<string, (string server, string user, string pass)> dataCabang
+            = new Dictionary<string, (string, string, string)>();
+
         private void getDatacabang()
         {
-            string connectionString = Fungsi.connectionString ;
-            MySqlConnection connection = new MySqlConnection(connectionString);
-            try
+            string connectionString = Fungsi.connectionString;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                cb_client.Items.Clear();
-                connection.Open();
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM m_cabang where recid='*' and kdcab not in('G218','G219','G257','G259') order by kdcab", connection);
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                try
                 {
-                    while (reader.Read())
+                    cb_client.Items.Clear();
+                    dataCabang.Clear();
+                    connection.Open();
+                    MySqlCommand cmd = new MySqlCommand(
+                        "SELECT KDCAB, NAMA, SERVER, RDP_USER, RDP_PASS FROM master_cabang " +
+                        "where recid='*' and kdcab not in('G218','G219','G257','G259') order by kdcab",
+                        connection);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        string kdcab = reader.GetString("KDCAB");
-                        string namacab = reader.GetString("NAMA");
-                        ipcab = reader.GetString("SERVER");
-                        usercab = reader.GetString("RDP_USER");
-                        passcab = reader.GetString("RDP_PASS");
-                        cb_client.Items.Add(kdcab + "-" + namacab);
+                        while (reader.Read())
+                        {
+                            string kdcab = reader.GetString("KDCAB");
+                            string namacab = reader.GetString("NAMA");
+                            string server = reader.GetString("SERVER");
+                            string user = reader.GetString("RDP_USER");
+                            string pass = reader.GetString("RDP_PASS");
+
+                            dataCabang[kdcab] = (server, user, pass); // disimpan per kode cabang
+                            cb_client.Items.Add(kdcab + "-" + namacab);
+                        }
                     }
                 }
-
-
-            }
-            catch (Exception ex)
-            {
-                Fungsi.Log("getDatacabang", ex.Message);
-                MessageBox.Show("getDatacabang error : " + ex.Message);
-                this.Close();
-            }
-            finally
-            {
-                connection.Close();
-            }
+                catch (Exception ex)
+                {
+                    Fungsi.Log("getDatacabang", ex.Message);
+                    MessageBox.Show("getDatacabang error : " + ex.Message);
+                    this.Close();
+                }
+            } // connection otomatis Dispose & Close di sini
         }
-
+        private string currentBcTopic = "";
+        private string currentSsTopic = "";
         private void konekbroker(string sclinet)
         {
             Task.Run(() =>
             {
                 try
                 {
-                    // Cek koneksi MQTT
+                    string bcTopic = TopicResponsBC(sclinet);
+                    string screenshotTopic = TopicResponsSS(sclinet);
+
                     if (mqttClient == null || !mqttClient.IsConnected)
                     {
-                        // Disconnect jika sudah terhubung
                         if (mqttClient != null && mqttClient.IsConnected)
                         {
                             mqttClient.Disconnect();
                         }
 
-                        // Menentukan topik untuk BC dan Screenshot
-                        string bcTopic = "RESPONS_" + sclinet + "/BC/" + NikLogin;
-                        string screenshotTopic = "RESPONS_" + sclinet + "/SS/" + NikLogin;
-
                         this.Invoke((MethodInvoker)delegate
                         {
-                            // Subscribe ke dua topik
                             mqttClient = new MqttClient(ServerBroker);
                             mqttClient.MqttMsgPublishReceived += MqttClient_MqttMsgPublishReceived;
 
                             try
                             {
-                                if (cb_capture.Checked == true)
+                                mqttClient.Connect(c_id);
+
+                                if (cb_capture.Checked)
                                 {
-                                    mqttClient.Connect(c_id);
-                                    mqttClient.Subscribe(new string[] { bcTopic, screenshotTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-                                    inisaha = bcTopic;
+                                    mqttClient.Subscribe(
+                                        new[] { bcTopic, screenshotTopic },
+                                        new[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
                                 }
                                 else
                                 {
-                                    mqttClient.Connect(c_id);
-                                    mqttClient.Subscribe(new string[] { bcTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE});
-                                    inisaha = bcTopic;
-                                };
-                               
+                                    mqttClient.Subscribe(
+                                        new[] { bcTopic },
+                                        new[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+                                }
+
+                                currentBcTopic = bcTopic;
+                                currentSsTopic = screenshotTopic;
+                                inisaha = bcTopic;
                             }
                             catch (Exception ex)
                             {
-                                Fungsi.Log("konekbroker", "Error while connecting or subscribing" + ex.Message);
+                                Fungsi.Log("konekbroker", "Error while connecting or subscribing: " + ex.Message);
                                 MessageBox.Show($"Error while connecting or subscribing: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         });
                     }
                     else
                     {
-                        // Unsubscribe dari topik lama jika diperlukan
-                        if ("RESPONS_" + sclinet + "/BC/" + NikLogin != inisaha)
+                        if (bcTopic != currentBcTopic)
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
@@ -200,15 +206,14 @@ namespace REG2Publisher
 
                             try
                             {
-                                if (cb_capture.Checked == true)
+                                var oldTopics = new List<string>();
+                                if (!string.IsNullOrEmpty(currentBcTopic)) oldTopics.Add(currentBcTopic);
+                                if (cb_capture.Checked && !string.IsNullOrEmpty(currentSsTopic)) oldTopics.Add(currentSsTopic);
+
+                                if (oldTopics.Count > 0)
                                 {
-                                    mqttClient.Unsubscribe(new string[] { "RESPONS_" + clientid + "/BC/" + NikLogin, "RESPONS_" + clientid + "/SS/" + NikLogin });
+                                    mqttClient.Unsubscribe(oldTopics.ToArray());
                                 }
-                                else
-                                {
-                                    mqttClient.Unsubscribe(new string[] { "RESPONS_" + clientid + "/BC/" + NikLogin });
-                                };
-                                    
                             }
                             catch (Exception ex)
                             {
@@ -220,23 +225,24 @@ namespace REG2Publisher
                             }
                         }
 
-                        // Subscribe ke dua topik baru
                         try
                         {
-                            if (cb_capture.Checked == true)
+                            if (cb_capture.Checked)
                             {
-                                string newBcTopic = $"RESPONS_{sclinet}/BC/{NikLogin}";
-                                string newScreenshotTopic = $"RESPONS_{sclinet}/SS/{NikLogin}";
-                                mqttClient.Subscribe(new string[] { newBcTopic, newScreenshotTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-                                inisaha = newBcTopic;
+                                mqttClient.Subscribe(
+                                    new[] { bcTopic, screenshotTopic },
+                                    new[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
                             }
                             else
                             {
-                                string newBcTopic = $"RESPONS_{sclinet}/BC/{NikLogin}";
-                                mqttClient.Subscribe(new string[] { newBcTopic }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-                                inisaha = newBcTopic;
-                            };
-                                
+                                mqttClient.Subscribe(
+                                    new[] { bcTopic },
+                                    new[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+                            }
+
+                            currentBcTopic = bcTopic;
+                            currentSsTopic = screenshotTopic;
+                            inisaha = bcTopic;
                         }
                         catch (Exception ex)
                         {
@@ -265,8 +271,7 @@ namespace REG2Publisher
                 var topic = e.Topic;
                 var message = Encoding.UTF8.GetString(e.Message);
 
-                // Menangani pesan berdasarkan topik yang diterima
-                if (topic == "RESPONS_" + clientid + "/BC/" + NikLogin)
+                if (topic == currentBcTopic)
                 {
                     txt_respons.Invoke((MethodInvoker)(() =>
                     {
@@ -275,10 +280,8 @@ namespace REG2Publisher
                         txt_respons.ScrollToCaret();
                     }));
                 }
-                else if (topic == "RESPONS_" + clientid + "/SS/" + NikLogin)
+                else if (topic == currentSsTopic)
                 {
-                    //pictureBox1.Visible = true;
-                    //button5.Visible = true;
                     byte[] data = e.Message;
                     using (MemoryStream stream = new MemoryStream(data))
                     {
@@ -287,13 +290,12 @@ namespace REG2Publisher
                         pictureBox1.Invoke(new Action(() =>
                         {
                             if (pictureBox1.Image != null)
-                                pictureBox1.Image.Dispose(); // hapus gambar lama dari memory
+                                pictureBox1.Image.Dispose();
 
-                            pictureBox1.Image = (Bitmap)screenshot.Clone(); // assign salinan gambar
+                            pictureBox1.Image = (Bitmap)screenshot.Clone();
                         }));
 
                         screenshot.Dispose();
-
                         Console.WriteLine("Tangkapan layar berhasil ditampilkan.");
                     }
                 }
@@ -307,17 +309,49 @@ namespace REG2Publisher
                 });
             }
         }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
+
+        private string TopicResponsBC(string client) => $"RESPONS_{client}/BC/{NikLogin}";
+        private string TopicResponsSS(string client) => $"RESPONS_{client}/SS/{NikLogin}";
+        private string TopicCommandBC(string client) => $"COMMAND_{client}/BC/{NikLogin}";
+        private string TopicCommandSS(string client) => $"COMMAND_{client}/SS/{NikLogin}";
+
+        private void PublishMqtt(string topic, string payload)
+        {
+            if (mqttClient == null || !mqttClient.IsConnected) return;
+
+            Task.Run(() =>
+            {
+                try
+                {
+                    if (!this.IsDisposed && !this.Disposing)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            mqttClient.Publish(topic, Encoding.UTF8.GetBytes(payload));
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Fungsi.Log("PublishMqtt", ex.Message);
+                    if (!this.IsDisposed)
+                    {
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            MessageBox.Show($"Error publishing MQTT message: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        });
+                    }
+                }
+            });
+        }
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            
             if (e.KeyCode == Keys.F9)
             {
-                //konekbroker();
                 try
                 {
                     Task.Run(() =>
@@ -326,27 +360,32 @@ namespace REG2Publisher
                         {
                             this.Invoke((MethodInvoker)delegate
                             {
-
-                                string commandTopic = "COMMAND_" + clientid + "/BC/" + NikLogin;
-                                mqttClient.Publish(commandTopic, Encoding.UTF8.GetBytes(textBox1.Text));
-                                DateTime currentTime = DateTime.Now;
-                                txt_respons.Text += Environment.NewLine + clientid + "@ " + currentTime;
-                                txt_respons.Text += Environment.NewLine + textBox1.Text;
-                                commandHistory.Add(textBox1.Text);
-                                textBox1.Clear();
-                                if (cb_capture.Checked == true)
+                                if (string.Equals(textBox1.Text, "CLS", StringComparison.OrdinalIgnoreCase) ||
+                                    string.Equals(textBox1.Text, "CLEAR", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    string commandTopic2 = "COMMAND_" + clientid + "/SS/" + NikLogin;
-                                    mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes("SS"));
+                                    textBox1.Clear();
                                 }
-                                
+                                else
+                                {
+                                    string commandTopic = TopicCommandBC(clientid);
+                                    mqttClient.Publish(commandTopic, Encoding.UTF8.GetBytes(textBox1.Text));
+
+                                    DateTime currentTime = DateTime.Now;
+                                    txt_respons.Text += Environment.NewLine + clientid + "@ " + currentTime;
+                                    txt_respons.Text += Environment.NewLine + textBox1.Text;
+
+                                    commandHistory.Add(textBox1.Text);
+                                    textBox1.Clear();
+
+                                    if (cb_capture.Checked)
+                                    {
+                                        string commandTopic2 = TopicCommandSS(clientid);
+                                        mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes("SS"));
+                                    }
+                                }
                             });
                         }
                     });
-                    //FrmCapture ss = new FrmCapture();
-                    //ss.NikLogin = NikLogin;
-                    //ss.clientid = clientid;
-                    //ss.ButtonClick();
                 }
                 catch (Exception ex)
                 {
@@ -355,10 +394,7 @@ namespace REG2Publisher
                         MessageBox.Show($"Error connecting to MQTT broker: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     });
                 }
-
-                
             }
-
 
             if (e.KeyCode == Keys.F7)
             {
@@ -372,8 +408,6 @@ namespace REG2Publisher
 
                     listBox1.Visible = true;
                     listBox1.Focus();
-                    //string historyString = string.Join(Environment.NewLine, commandHistory);
-                    //MessageBox.Show("Command history:\n" + historyString, "History", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -391,32 +425,45 @@ namespace REG2Publisher
         {
             try
             {
-                //pictureBox1.Image = null;
                 lbltampung.Text = "";
                 button5.Enabled = false;
                 textBox1.Enabled = false;
-                lbl_load.Text = "Ping ke :" + ipcab;
                 BTN_RECONNECT.Visible = false;
+
                 cabang = cb_client.Text.Substring(0, Math.Min(4, cb_client.Text.Length));
                 clientid = "TAMPUNG_" + cabang;
-                var result = Fungsi.cekrdp(cabang);
+
                 iprdp = "";
                 urdp = "";
                 prdp = "";
+
+                if (dataCabang.TryGetValue(cabang, out var info))
+                {
+                    ipcab = info.server;
+                    usercab = info.user;
+                    passcab = info.pass;
+                }
+
+                lbl_load.Text = "Ping ke :" + ipcab;
+
+                var result = Fungsi.cekrdp(cabang);
                 if (result != null && result.Contains("|"))
                 {
-                    iprdp = result.Split(new char[] { '|' })[0];
-                    urdp = result.Split(new char[] { '|' })[1];
-                    prdp = result.Split(new char[] { '|' })[2];
-
+                    var parts = result.Split(new char[] { '|' });
+                    iprdp = parts[0];
+                    urdp = parts[1];
+                    prdp = parts[2];
                 }
+
                 if (Fungsi.CheckPing(iprdp))
                 {
-                    lbl_load.Text = "Ping sukses : " + ipcab;                
+                    lbl_load.Text = "Ping sukses : " + ipcab;
                     lbl_load.Text = "MENUNGGU RESPON : " + clientid;
+
                     FrmCek cek = new FrmCek();
                     Fungsi.Nametmp = clientid;
                     cek.ShowDialog();
+
                     if (cek.hasil)
                     {
                         konekbroker(clientid);
@@ -424,7 +471,6 @@ namespace REG2Publisher
                         button5.Enabled = true;
                         lbltampung.Text = cb_client.Text;
                         lbl_load.Text = "TERKONEKSI KE : " + clientid;
-                        
                     }
                     else
                     {
@@ -432,25 +478,21 @@ namespace REG2Publisher
                         lbl_load.Text = "LISTENERS OFFLINE : " + clientid;
                         textBox1.Enabled = false;
                         BTN_RECONNECT.Visible = true;
+                        BTN_RECONNECT.Enabled = true;
                     }
 
                     lbl_rdp.Visible = false;
                     txt_rdp.Visible = false;
-                    
-
-
                 }
                 else
                 {
                     lbl_load.Text = "Ping Gagal :" + ipcab;
                     textBox1.Enabled = false;
                 }
-                
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-
             }
         }
         private void ListBox1_Click(object sender, EventArgs e)
@@ -490,19 +532,19 @@ namespace REG2Publisher
 
             Console.WriteLine("Output:");
             Console.WriteLine(output);
+
             if (mqttClient != null && mqttClient.IsConnected)
             {
                 mqttClient.Disconnect();
             }
+            mqttClient = null;
 
             List<Form> openForms = new List<Form>(Application.OpenForms.Cast<Form>());
-
             foreach (Form frm in openForms)
             {
                 frm.Close();
             }
         }
-
         private void button3_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
@@ -525,29 +567,24 @@ namespace REG2Publisher
         {
 
         }
-       
+
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!(cb_client.Text == ""))
-            {
-                string lok = Application.StartupPath + "\\set.rdp";
-                if (File.Exists(lok))
-                {
-                    File.Delete(lok);
-                    Fungsi.CreateRdpFile(lok, iprdp, urdp, prdp);
-                }
-                else
-                {
-                    Fungsi.CreateRdpFile(lok, iprdp, urdp, prdp);
-                }
-                Process.Start(lok);
-                //File.Delete(lok);
-                lbl_rdp.Visible = true;
-                txt_rdp.Visible = true;
-                txt_rdp.Text = prdp;
-            }
-            
+            if (cb_client.Text == "") return;
 
+            string lok = Path.Combine(Application.StartupPath, "set.rdp");
+            if (File.Exists(lok))
+            {
+                File.Delete(lok);
+            }
+            Fungsi.CreateRdpFile(lok, iprdp, urdp, prdp);
+
+            Process.Start(lok);
+
+            lbl_rdp.Visible = true;
+            txt_rdp.Visible = true;
+            txt_rdp.UseSystemPasswordChar = true;
+            txt_rdp.Text = prdp;
         }
 
         private void lbl_rdp_Click(object sender, EventArgs e)
@@ -560,9 +597,9 @@ namespace REG2Publisher
             FrmCek cek = new FrmCek();
             Fungsi.Nametmp = clientid;
             cek.ShowDialog();
+
             if (cek.hasil)
             {
-
                 konekbroker(clientid);
                 textBox1.Enabled = true;
                 lbl_load.Text = "TERKONEKSI KE : " + clientid;
@@ -582,32 +619,7 @@ namespace REG2Publisher
 
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Task.Run(() =>
-                {
-                    if (mqttClient != null && mqttClient.IsConnected)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-
-                            string commandTopic2 = "COMMAND_" + clientid + "/SS/" + NikLogin;
-                            mqttClient.Publish(commandTopic2, Encoding.UTF8.GetBytes("SS"));
-                        });
-                    }
-                });
-               
-            }
-            catch (Exception ex)
-            {
-                this.Invoke((MethodInvoker)delegate
-                {
-                    MessageBox.Show($"Error connecting to MQTT broker: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                });
-            }
-        }
+     
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
@@ -618,33 +630,17 @@ namespace REG2Publisher
         {
             try
             {
-                Task.Run(() =>
-                {
-                    if (mqttClient !=null && mqttClient.IsConnected)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            string commandTopic3 = "COMMAND_" + clientid + "/BC/" + NikLogin;
-                            //string command = "for %D in (C D E) do if exist \"%D:\\REGUPD\\REGUPD.exe\" (start \"\" \"%D:\\REGUPD\\REGUPD.exe\" -auto & exit) else (echo REGUPD.exe tidak ditemukan di %D:)";
-                            string command = @"for %%D in (C D E) do (
-                            if exist ""%%D:\REGUPD\REGUPD.exe"" (
-                                ""%%D:\REGUPD\REGUPD.exe"" -auto
-                                echo Ditemukan di %%D: dan dijalankan.
-                                goto :EOF
-                            ) else (
-                                echo Tidak ditemukan di %%D:
-                            )
-                        )";
+                string command = @"for %%D in (C D E) do (
+        if exist ""%%D:\REGUPD\REGUPD.exe"" (
+            ""%%D:\REGUPD\REGUPD.exe"" -auto
+            echo Ditemukan di %%D: dan dijalankan.
+            goto :EOF
+        ) else (
+            echo Tidak ditemukan di %%D:
+        )
+    )";
 
-                            
-                            mqttClient.Publish(commandTopic3, Encoding.UTF8.GetBytes(command));
-
-                        });
-                    }
-                }
-
-
-                );
+                PublishMqtt(TopicCommandBC(clientid), command);
             }
             catch (Exception ex)
             {
@@ -661,29 +657,16 @@ namespace REG2Publisher
         {
             try
             {
-                Task.Run(() =>
-                {
-                    if (mqttClient != null && mqttClient.IsConnected)
-                    {
-                        this.Invoke((MethodInvoker)delegate
-                        {
-                            string commandTopic3 = "COMMAND_" + clientid + "/BC/" + NikLogin;
-                            string command = $"powershell -Command \"$tomorrow=(Get-Date).AddDays(1).ToString('dd'); $found=$false; foreach($d in Get-PSDrive -PSProvider FileSystem){{ $path=Join-Path ($d.Name+':\\') ('DTO\\{cabang}\\'+$tomorrow); if(Test-Path $path){{ Write-Host ('Folder ditemukan di drive '+$d.Name+':'); cmd /c dir $path; $found=$true; break }} }} if(-not $found){{ Write-Host 'Folder tidak ditemukan di semua drive.' }}\"";
-                            mqttClient.Publish(commandTopic3, Encoding.UTF8.GetBytes(command));
+                string command = $"powershell -Command \"$tomorrow=(Get-Date).AddDays(1).ToString('dd'); $found=$false; foreach($d in Get-PSDrive -PSProvider FileSystem){{ $path=Join-Path ($d.Name+':\\') ('DTO\\{cabang}\\'+$tomorrow); if(Test-Path $path){{ Write-Host ('Folder ditemukan di drive '+$d.Name+':'); cmd /c dir $path; $found=$true; break }} }} if(-not $found){{ Write-Host 'Folder tidak ditemukan di semua drive.' }}\"";
 
-                        });
-                    }
-                }
-
-
-                );
+                Fungsi.Log("DEBUG_COMMAND", command); // <-- tambahkan log ini sementara
+                PublishMqtt(TopicCommandBC(clientid), command);
             }
             catch (Exception ex)
             {
                 Fungsi.Log("RUN REGUPD", ex.Message);
             }
         }
-
         private void tabPage3_Click(object sender, EventArgs e)
         {
 

@@ -1,0 +1,211 @@
+12/18/2025 11:12:13 AM - Proses: Logs, Pesan: Get Listcab 'G001','G009','G027','G049','G080','G105','G116','G137','G218','G257','G259'
+12/18/2025 11:12:13 AM - Proses: Logs, Pesan: Get Listfile ALL FILES
+12/18/2025 11:12:13 AM - Proses: Logs, Pesan: Proses ke TAMPUNG_G001
+12/18/2025 11:12:13 AM - Proses: Logs, Pesan: Sukses ping ke server 192.168.46.103
+12/18/2025 11:12:14 AM - Proses: Logs, Pesan: Terkoneksi ke listener TAMPUNG_G001
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: Create table command 
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: update command 1 
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: Insert comand 
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: Send command 
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: 
+TAMPUNG_G001@ 12/18/2025 11:12:19 AM
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: 
+Taskkill /f /im ZipDTO.exe
+start D:\ZipDTO\ZipDTO.exe
+exit
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: 
+
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: 
+== COMMAND DITERIMA SEDANG DIPROSES ==
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: Proses ke TAMPUNG_G009
+12/18/2025 11:12:19 AM - Proses: Logs, Pesan: Sukses ping ke server 192.168.29.183
+12/18/2025 11:12:21 AM - Proses: Logs, Pesan: update command 1 
+12/18/2025 11:12:21 AM - Proses: Cek looping mdn , Pesan: G009
+12/18/2025 11:12:21 AM - Proses: KirimTugas, Pesan: Connection must be valid and open.
+12/18/2025 11:12:52 AM - Proses: Logs, Pesan: Get Listcab 'G027','G049','G080','G105','G116','G137'
+12/18/2025 11:12:52 AM - Proses: Logs, Pesan: Get Listfile ALL FILES
+12/18/2025 11:12:52 AM - Proses: Logs, Pesan: Proses ke TAMPUNG_G027
+12/18/2025 11:12:52 AM - Proses: Logs, Pesan: Sukses ping ke server 192.168.17.31
+12/18/2025 11:12:53 AM - Proses: Logs, Pesan: Terkoneksi ke listener TAMPUNG_G027
+12/18/2025 11:12:53 AM - Proses: Logs, Pesan: Create table command 
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: update command 1 
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: Insert comand 
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: Send command 
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: 
+TAMPUNG_G027@ 12/18/2025 11:12:54 AM
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: 
+Taskkill /f /im ZipDTO.exe
+start E:\ZipDTO\ZipDTO.exe
+exit
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: 
+
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: Proses ke TAMPUNG_G049
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: Sukses ping ke server 192.168.77.220
+12/18/2025 11:12:54 AM - Proses: Logs, Pesan: 
+== COMMAND DITERIMA SEDANG DIPROSES ==
+12/18/2025 11:12:55 AM - Proses: Logs, Pesan: Terkoneksi ke listener TAMPUNG_G049
+12/18/2025 11:13:13 AM - Proses: KirimTUgas, Pesan: Reading from the stream has failed.   at MySql.Data.MySqlClient.MySqlStream.<LoadPacketAsync>d__32.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlStream.<ReadPacketAsync>d__30.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at MySql.Data.MySqlClient.NativeDriver.<OpenAsync>d__38.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at MySql.Data.MySqlClient.Driver.<OpenAsync>d__76.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.Driver.<CreateAsync>d__74.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at MySql.Data.MySqlClient.Driver.<CreateAsync>d__74.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlPool.<CreateNewPooledConnectionAsync>d__31.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlPool.<GetPooledConnectionAsync>d__30.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlPool.<TryToGetDriverAsync>d__34.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at MySql.Data.MySqlClient.MySqlPool.<GetConnectionAsync>d__35.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlConnection.<OpenAsync>d__94.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at REG2Publisher.FrmDTO.KirimTugas()
+12/18/2025 11:13:29 AM - Proses: Logs, Pesan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+12/18/2025 11:13:29 AM - Proses: Logs, Pesan: Proses ke TAMPUNG_G080
+12/18/2025 11:13:29 AM - Proses: Logs, Pesan: Sukses ping ke server 192.168.62.232
+12/18/2025 11:13:30 AM - Proses: Logs, Pesan: Terkoneksi ke listener TAMPUNG_G080
+12/18/2025 11:13:45 AM - Proses: KirimTUgas, Pesan: Reading from the stream has failed.   at MySql.Data.MySqlClient.MySqlStream.<LoadPacketAsync>d__32.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlStream.<ReadPacketAsync>d__30.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+   at MySql.Data.MySqlClient.NativeDriver.<OpenAsync>d__38.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at MySql.Data.MySqlClient.Driver.<OpenAsync>d__76.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.Driver.<CreateAsync>d__74.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at MySql.Data.MySqlClient.Driver.<CreateAsync>d__74.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlPool.<CreateNewPooledConnectionAsync>d__31.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlPool.<GetPooledConnectionAsync>d__30.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlPool.<TryToGetDriverAsync>d__34.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at MySql.Data.MySqlClient.MySqlPool.<GetConnectionAsync>d__35.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlConnection.<OpenAsync>d__94.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at MySql.Data.MySqlClient.MySqlConnection.Open()
+   at REG2Publisher.FrmDTO.KirimTugas()
+12/18/2025 11:13:48 AM - Proses: Logs, Pesan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+12/18/2025 11:13:48 AM - Proses: Logs, Pesan: Proses ke TAMPUNG_G105
+12/18/2025 11:13:48 AM - Proses: Logs, Pesan: Sukses ping ke server 192.168.21.119
+12/18/2025 11:13:49 AM - Proses: Logs, Pesan: Terkoneksi ke listener TAMPUNG_G105
+12/18/2025 11:13:53 AM - Proses: Logs, Pesan: Create table command 
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: update command 1 
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: Insert comand 
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: Send command 
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: 
+TAMPUNG_G105@ 12/18/2025 11:13:54 AM
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: 
+Taskkill /f /im ZipDTO.exe
+start E:\ZipDTO\ZipDTO.exe
+exit
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: 
+
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: Proses ke TAMPUNG_G116
+12/18/2025 11:13:54 AM - Proses: Logs, Pesan: Sukses ping ke server 192.168.75.111
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: Terkoneksi ke listener TAMPUNG_G116
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: Create table command 
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: update command 1 
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: Insert comand 
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: Send command 
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: 
+TAMPUNG_G116@ 12/18/2025 11:13:55 AM
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: 
+Taskkill /f /im ZipDTO.exe
+start E:\ZipDTO\ZipDTO.exe
+exit
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: 
+
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: Proses ke TAMPUNG_G137
+12/18/2025 11:13:55 AM - Proses: Logs, Pesan: Sukses ping ke server 192.168.85.230
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: Terkoneksi ke listener TAMPUNG_G137
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: Create table command 
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: update command 1 
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: Insert comand 
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: Send command 
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: 
+TAMPUNG_G137@ 12/18/2025 11:13:57 AM
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: 
+Taskkill /f /im ZipDTO.exe
+start E:\ZipDTO\ZipDTO.exe
+exit
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: 
+
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+12/18/2025 11:13:57 AM - Proses: Logs, Pesan: 
+== COMMAND DITERIMA SEDANG DIPROSES ==
+12/18/2025 11:14:09 AM - Proses: Logs, Pesan: 
+== SELESAI PROSES ZIPDTO ==
+12/18/2025 12:14:24 PM - Proses: Logs, Pesan: Get Listcab 'G001','G009','G027','G049','G080','G105','G116','G137','G218','G257','G259'
+12/18/2025 12:14:24 PM - Proses: Logs, Pesan: Get Listfile ALL FILES
+12/18/2025 12:14:25 PM - Proses: Logs, Pesan: Proses ke TAMPUNG_G001
+12/18/2025 12:14:25 PM - Proses: Logs, Pesan: Sukses ping ke server 192.168.46.103
+12/18/2025 12:14:40 PM - Proses: Logs, Pesan: GAGAL KIRIM KE TAMPUNG_G001 KARENA LISTENERS OFFLINE 
+12/18/2025 12:14:40 PM - Proses: Logs, Pesan: ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+12/18/2025 12:14:40 PM - Proses: Logs, Pesan: Proses ke TAMPUNG_G009
+12/18/2025 12:14:40 PM - Proses: Logs, Pesan: Sukses ping ke server 192.168.29.183
+12/18/2025 12:14:41 PM - Proses: Logs, Pesan: update command 1 
+12/18/2025 12:14:41 PM - Proses: Cek looping mdn , Pesan: G009
+12/18/2025 12:14:41 PM - Proses: KirimTugas, Pesan: Connection must be valid and open.
+12/18/2025 1:41:58 PM - Proses: Logs, Pesan: Get Listcab 'G009','G218','G257','G259'
+12/18/2025 1:41:58 PM - Proses: Logs, Pesan: Get Listfile ALL FILES
+12/18/2025 1:41:58 PM - Proses: Logs, Pesan: Proses ke TAMPUNG_G009
+12/18/2025 1:41:58 PM - Proses: Logs, Pesan: Sukses ping ke server 192.168.29.183
+12/18/2025 1:41:59 PM - Proses: Logs, Pesan: update command 1 
+12/18/2025 1:41:59 PM - Proses: Cek looping mdn , Pesan: G009
+12/18/2025 1:41:59 PM - Proses: KirimTugas, Pesan: Connection must be valid and open.

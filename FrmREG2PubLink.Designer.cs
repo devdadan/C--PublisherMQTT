@@ -37,6 +37,7 @@ namespace REG2Publisher
             this.panel5 = new System.Windows.Forms.Panel();
             this.button6 = new System.Windows.Forms.Button();
             this.cb_capture = new System.Windows.Forms.CheckBox();
+            this.lbl_load = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.BTN_RECONNECT = new System.Windows.Forms.Button();
@@ -54,7 +55,6 @@ namespace REG2Publisher
             this.lbl_rdp = new System.Windows.Forms.Label();
             this.txt_rdp = new System.Windows.Forms.TextBox();
             this.lbl_client = new System.Windows.Forms.Label();
-            this.lbl_load = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
@@ -130,6 +130,7 @@ namespace REG2Publisher
             this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.panel5.Controls.Add(this.button6);
             this.panel5.Controls.Add(this.cb_capture);
+            this.panel5.Controls.Add(this.lbl_load);
             this.panel5.Controls.Add(this.button4);
             this.panel5.Controls.Add(this.button1);
             this.panel5.Controls.Add(this.BTN_RECONNECT);
@@ -151,7 +152,7 @@ namespace REG2Publisher
             this.button6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.button6.Image = global::REG2PubLink.Properties.Resources.icons8_rdp_connection_20;
             this.button6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button6.Location = new System.Drawing.Point(4, 442);
+            this.button6.Location = new System.Drawing.Point(4, 349);
             this.button6.Margin = new System.Windows.Forms.Padding(4);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(188, 34);
@@ -170,6 +171,20 @@ namespace REG2Publisher
             this.cb_capture.Text = "Auto Capture";
             this.cb_capture.UseVisualStyleBackColor = true;
             // 
+            // lbl_load
+            // 
+            this.lbl_load.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_load.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.lbl_load.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_load.ForeColor = System.Drawing.Color.Black;
+            this.lbl_load.Location = new System.Drawing.Point(8, 453);
+            this.lbl_load.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbl_load.Name = "lbl_load";
+            this.lbl_load.Size = new System.Drawing.Size(562, 41);
+            this.lbl_load.TabIndex = 0;
+            this.lbl_load.Text = "Loading ..";
+            this.lbl_load.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // button4
             // 
             this.button4.BackColor = System.Drawing.Color.BlueViolet;
@@ -179,7 +194,7 @@ namespace REG2Publisher
             this.button4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.button4.Image = global::REG2PubLink.Properties.Resources.icons8_rdp_connection_20;
             this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(209, 358);
+            this.button4.Location = new System.Drawing.Point(209, 265);
             this.button4.Margin = new System.Windows.Forms.Padding(4);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(188, 34);
@@ -197,7 +212,7 @@ namespace REG2Publisher
             this.button1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.button1.Image = global::REG2PubLink.Properties.Resources.icons8_rdp_connection_20;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.Location = new System.Drawing.Point(4, 400);
+            this.button1.Location = new System.Drawing.Point(4, 307);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(188, 34);
@@ -215,7 +230,7 @@ namespace REG2Publisher
             this.BTN_RECONNECT.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.BTN_RECONNECT.Image = global::REG2PubLink.Properties.Resources.icons8_reload_20;
             this.BTN_RECONNECT.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.BTN_RECONNECT.Location = new System.Drawing.Point(209, 442);
+            this.BTN_RECONNECT.Location = new System.Drawing.Point(209, 349);
             this.BTN_RECONNECT.Margin = new System.Windows.Forms.Padding(4);
             this.BTN_RECONNECT.Name = "BTN_RECONNECT";
             this.BTN_RECONNECT.Size = new System.Drawing.Size(188, 34);
@@ -233,7 +248,7 @@ namespace REG2Publisher
             this.button5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.button5.Image = global::REG2PubLink.Properties.Resources.icons8_camera_20__1_;
             this.button5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.Location = new System.Drawing.Point(4, 358);
+            this.button5.Location = new System.Drawing.Point(4, 265);
             this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(188, 34);
@@ -258,7 +273,7 @@ namespace REG2Publisher
             this.pictureBox1.BackColor = System.Drawing.Color.Silver;
             this.pictureBox1.Location = new System.Drawing.Point(3, 40);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(574, 311);
+            this.pictureBox1.Size = new System.Drawing.Size(574, 214);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -370,7 +385,6 @@ namespace REG2Publisher
             this.panel1.Controls.Add(this.lbl_rdp);
             this.panel1.Controls.Add(this.txt_rdp);
             this.panel1.Controls.Add(this.lbl_client);
-            this.panel1.Controls.Add(this.lbl_load);
             this.panel1.Location = new System.Drawing.Point(4, 4);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
@@ -404,25 +418,17 @@ namespace REG2Publisher
             // 
             // lbl_client
             // 
-            this.lbl_client.AutoSize = true;
-            this.lbl_client.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_client.ForeColor = System.Drawing.Color.Yellow;
-            this.lbl_client.Location = new System.Drawing.Point(139, 9);
+            this.lbl_client.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lbl_client.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_client.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_client.ForeColor = System.Drawing.Color.Black;
+            this.lbl_client.Location = new System.Drawing.Point(0, 0);
             this.lbl_client.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbl_client.Name = "lbl_client";
-            this.lbl_client.Size = new System.Drawing.Size(0, 17);
+            this.lbl_client.Size = new System.Drawing.Size(112, 32);
             this.lbl_client.TabIndex = 1;
-            // 
-            // lbl_load
-            // 
-            this.lbl_load.AutoSize = true;
-            this.lbl_load.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_load.ForeColor = System.Drawing.Color.Yellow;
-            this.lbl_load.Location = new System.Drawing.Point(4, 9);
-            this.lbl_load.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lbl_load.Name = "lbl_load";
-            this.lbl_load.Size = new System.Drawing.Size(0, 17);
-            this.lbl_load.TabIndex = 0;
+            this.lbl_client.Text = "Load";
+            this.lbl_client.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabPage2
             // 

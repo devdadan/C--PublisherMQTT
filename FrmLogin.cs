@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
+using BCrypt.Net;
 namespace REG2Publisher
 {
     public partial class FrmLogin : Form
@@ -68,126 +69,43 @@ namespace REG2Publisher
                 try
                 {
                     connection.Open();
-                    string query = "SELECT COUNT(*) FROM userlogin WHERE nik = @Username AND pass =password(@Password) and recid=''";
-                    MySqlCommand cmd = new MySqlCommand(query, connection);
-                    cmd.Parameters.AddWithValue("@Username", textBox1.Text);
-                    cmd.Parameters.AddWithValue("@Password", textBox2.Text);
-                    int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    string ver = Application.ProductVersion;
-                    string query2 = "UPDATE USERLOGIN SET VERSI='" + ver + "' WHERE NIK='" + textBox1.Text + "'";
-                    MySqlCommand cmdd = new MySqlCommand(query2, connection);
-                    cmdd.ExecuteNonQuery();
 
-                    string versi1;
-                    string versi2;
-                    string u, s;
-                    if (count > 0)
+                    if (Login(textBox1.Text, textBox2.Text))
                     {
-                        string SQL = "SELECT REPLACE(a.versi,'.','') versi1,REPLACE(b.versi,'.','') versi2,a.versi as vkamu,b.versi as vserv FROM userlogin a,const b WHERE a.nik='" + textBox1.Text+"' AND b.apps=2 ";
-                        MySqlCommand cmd0 = new MySqlCommand(SQL, connection);
-                        using (MySqlDataReader reader = cmd0.ExecuteReader())
+                        string q2a = "SELECT COUNT(*) FROM BROKERINFO WHERE ISAKTIF='*'";
+                        MySqlCommand cmd2a = new MySqlCommand(q2a, connection);
+                        int count1 = Convert.ToInt32(cmd2a.ExecuteScalar());
+
+                        if (count1 >= 1)
                         {
-                            if (reader.Read())
-                            {
-                                versi1 = reader.GetString("versi1");
-                                versi2 = reader.GetString("versi2");
-                                u = reader.GetString("vkamu");
-                                s = reader.GetString("vserv");
-                                int hasilPerbandingan = string.Compare(versi1, versi2);
-                                if (hasilPerbandingan < 0)
-                                {
-                                    string pesan = "Apakah akan update versi ?\n\n" +
-                                     "Versi anda : " + u + " \n" +
-                                     "Versi server : " + s + " \n";
-                                    DialogResult result = MessageBox.Show(pesan, "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                                    if (result == DialogResult.Yes)
-                                    {
-
-                                       if (File.Exists(Application.StartupPath + "\\updater.exe")){
-
-                                        }
-                                        string pathfull = Application.StartupPath;
-                                        string batchFilePath = Path.Combine(pathfull, "updgrade.bat");
-                                        string batchfile = @"cd /d """ + pathfull + @"""
-                                        taskkill /f /im reg2*
-                                        del /f /q Reg2Publink.exe
-                                        del /f /q Reg2Publink.pdb
-                                        wget -P """ + pathfull + @""" --user=simulasi --password=simulasi ftp://192.168.190.100:21/Prog/REG2PubLink.zip -N
-                                        unzip -o REG2PubLink.zip
-                                        Reg2PubLink.exe
-                                        exit";
-
-                                        if (File.Exists(batchFilePath))
-                                        {
-                                            File.Delete(batchFilePath);
-                                        }
-                                        File.WriteAllText(batchFilePath, batchfile);
-                                        if (File.Exists(batchFilePath))
-                                        {
-                                            Process.Start(batchFilePath);
-                                        }
-
-
-                                    }
-                                    else
-                                    {
-                                        this.Close();
-                                    }
-
-                                }
-                                reader.Close();  
-                            }
-
-                            try
-                            {
-                                string q2 = "INSERT INTO HIS_LOGIN (USERNAME,START_LOGIN,IPADDRESS) values ('" + textBox1.Text + "',now(),'" + ip + "')";
-                                MySqlCommand cmd1 = new MySqlCommand(q2, connection);
-                                cmd1.ExecuteNonQuery();
-
-                                string q2a = "SELECT COUNT(*) FROM BROKERINFO WHERE ISAKTIF='*'";
-                                MySqlCommand cmd2a = new MySqlCommand(q2a, connection);
-                                int count1 = Convert.ToInt32(cmd2a.ExecuteScalar());
-
-                                if (count1 >= 1)
-                                {
-                                    string q3 = "SELECT IP FROM BROKERINFO WHERE ISAKTIF='*'";
-                                    MySqlCommand cmd2 = new MySqlCommand(q3, connection);
-                                    Fungsi.Server = cmd2.ExecuteScalar().ToString();
-
-                                }
-                                else
-                                {
-                                    MessageBox.Show("BELUM ADA SERVER BROKER AKTIF!", "PERINGATAN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                                    Fungsi.Log("Cekserverbroker", "BELUM ADA SERVER BROKER");
-                                    this.Close();
-                                }
-                                if (Fungsi.CheckServer(Fungsi.Server)) { 
-
-                                this.Hide();
-
-                                FrmREGPubLink v = new FrmREGPubLink();
-                                Fungsi.NikLogin = textBox1.Text;
-                                v.NikLogin = textBox1.Text;
-                                v.Show();
-                                }
-                                else
-                                {
-                                    MessageBox.Show("SERVER BROKER IS TURN OFF, TURN ON PLEASE!","WARNING",MessageBoxButtons.OK,MessageBoxIcon.Warning);
-                                    this.Close();
-
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("ERROR SAAT CEK SERVER! : " + ex.Message, "PERINGATAN");
-                                Fungsi.Log("his_login", ex.Message);
-                                this.Close();
-                            }
+                            string q3 = "SELECT IP FROM BROKERINFO WHERE ISAKTIF='*'";
+                            MySqlCommand cmd2 = new MySqlCommand(q3, connection);
+                            Fungsi.Server = cmd2.ExecuteScalar().ToString();
 
                         }
-                        
-                     
-                                                      
+                        else
+                        {
+                            MessageBox.Show("BELUM ADA SERVER BROKER AKTIF!", "PERINGATAN", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            Fungsi.Log("Cekserverbroker", "BELUM ADA SERVER BROKER");
+                            this.Close();
+                        }
+                        if (Fungsi.CheckServer(Fungsi.Server))
+                        {
+
+                            this.Hide();
+
+                            FrmREGPubLink v = new FrmREGPubLink();
+                            Fungsi.NikLogin = textBox1.Text;
+                            v.NikLogin = textBox1.Text;
+                            v.Show();
+                        }
+                        else
+                        {
+                            MessageBox.Show("SERVER BROKER IS TURN OFF, TURN ON PLEASE!", "WARNING", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            this.Close();
+
+                        }
+
                     }
                     else
                     {
@@ -203,6 +121,31 @@ namespace REG2Publisher
             
         }
 
+        private bool Login(string username, string password)
+        {
+            string connectionString = Fungsi.connectionString;
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                string query = "SELECT password FROM table_user WHERE username = @Username ";
+
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@Username", username);
+
+                object result = cmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    string hashPassword = result.ToString();
+
+                    // Verifikasi bcrypt Laravel
+                    return BCrypt.Net.BCrypt.Verify(password, hashPassword);
+                }
+            }
+
+            return false;
+        }
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             
